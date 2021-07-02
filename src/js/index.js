@@ -46,9 +46,7 @@ function handleClick(event) {
             break
         case 'venmo':
             if (isMobile)
-                // window.open('venmo://user?username=justinlmartin')
-                window.open('https://www.venmo.com/u/justinlmartin')
-
+                window.open('https://www.venmo.com/justinlmartin?txn=pay')
             else
                 window.open('https://www.venmo.com/u/justinlmartin')
             break
