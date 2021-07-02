@@ -34,11 +34,14 @@ function setIconTextSize() {
 }
 
 function handleClick(event) {
-    let id = event.target.id
-    console.log(event.target.id)
+    let id = event.currentTarget.id
+    console.log(id)
     switch(id) {
         case 'instagram':
-            window.open('https://www.instagram.com/jugglingtallguy/')
+            if (isMobile)
+                window.open("instagram://user?username=jugglingtallguy")
+            else
+                window.open('https://www.instagram.com/jugglingtallguy/')
             break
         case 'venmo':
             window.open('https://www.venmo.com/u/jmartin432')
@@ -63,7 +66,8 @@ function handleClick(event) {
 window.onload = (event) => {
     isMobile = detectMobile()
     setIconTextSize()
-    let buttons = document.querySelectorAll('.link-container')
+    let buttons = document.getElementsByClassName('link-container')
+    console.log(buttons)
     for (let i = 0; i < buttons.length; i++) {
         let button = buttons[i];
         button.addEventListener('click', handleClick)
