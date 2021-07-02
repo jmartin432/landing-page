@@ -1,0 +1,15 @@
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - npm install
+      - npm run webpack
+artifacts:
+  files:
+    - src/index.html
+    - src/styles/*
+    - src/images/*
+    - src/audio/*
+    - src/portfolio/*
+    - src/dist/bundle.js
