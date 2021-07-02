@@ -34,6 +34,7 @@ function setIconTextSize() {
 }
 
 function handleClick(event) {
+    console.log('Mobile', isMobile)
     let id = event.currentTarget.id
     console.log(id)
     switch(id) {
@@ -44,7 +45,10 @@ function handleClick(event) {
                 window.open('https://www.instagram.com/jugglingtallguy/')
             break
         case 'venmo':
-            window.open('https://www.venmo.com/u/jmartin432')
+            if (isMobile)
+                window.open('venmo://users?username=jmartin432')
+            else
+                window.open('https://www.venmo.com/u/jmartin432')
             break
         case 'email':
             window.open('mailto:info@justinlmartin.com')
@@ -57,10 +61,7 @@ function handleClick(event) {
             break
         default:
             return
-}
-
-
-
+    }
 }
 
 window.onload = (event) => {
