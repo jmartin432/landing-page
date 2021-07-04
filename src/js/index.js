@@ -1,6 +1,6 @@
-let isMobile = false;
+let isMobile
 
-function detectMobile() {
+const detectMobile = new Promise((resolve, reject) => {
     const toMatch = [
         /Android/i,
         /webOS/i,
@@ -11,9 +11,27 @@ function detectMobile() {
         /Windows Phone/i
     ];
 
-    return toMatch.some((toMatchItem) => {
+    let mobile = toMatch.some((toMatchItem) => {
         return navigator.userAgent.match(toMatchItem);
     });
+    // console.log('Mobile: ', mobile)
+    resolve (mobile)
+})
+
+function setButtonMargins(mobile) {
+    let linkContainers = document.querySelectorAll('.link-container')
+    if (mobile)
+        for (let i = 0; i < linkContainers.length; i++){
+            let container = linkContainers[i];
+            container.style.margin = "40px auto 40px auto"
+            container.style.padding = "20px auto 20px auto"
+        }
+    else
+        for (let i = 0; i < linkContainers.length; i++){
+            let container = linkContainers[i];
+            container.style.margin = "20px auto 20px auto"
+            container.style.padding = "10px auto 10px auto"
+        }
 }
 
 function setIconTextSize() {
@@ -21,22 +39,24 @@ function setIconTextSize() {
     let windowWidth = window.innerWidth
     let links = document.querySelectorAll('.link-text')
     let linkIcons = document.querySelectorAll('.link-icon')
+    let header = document.querySelectorAll('h1')
+    let headerImage = document.querySelectorAll('.header-image')
     let fontSize = Math.floor(windowWidth * .05)
-    let x = "150"
-    console.log("setting Size", windowWidth, windowHeight, fontSize)
+    let headerImageSize = Math.floor(windowWidth * .25)
+    // console.log("setting Size", windowWidth, windowHeight, fontSize)
     for (let i = 0; i < links.length; i++){
         let link = links[i];
         let icon = linkIcons[i];
-        console.log(icon)
-        link.style.fontSize = fontSize + "px"
+        link.style.fontSize = fontSize.toString() + "px"
         icon.width = fontSize.toString()
     }
+    header[0].style.fontSize = (fontSize + 10).toString() + "px"
+    headerImage[0].width = headerImageSize.toString()
+    headerImage[0].height = headerImageSize.toString()
 }
 
 function handleClick(event) {
-    console.log('Mobile', isMobile)
     let id = event.currentTarget.id
-    console.log(id)
     switch(id) {
         case 'instagram':
             if (isMobile)
@@ -65,10 +85,11 @@ function handleClick(event) {
 }
 
 window.onload = (event) => {
-    isMobile = detectMobile()
-    setIconTextSize()
+    detectMobile.then((value) => {
+        setButtonMargins(value);
+    })
+    setIconTextSize();
     let buttons = document.getElementsByClassName('link-container')
-    console.log(buttons)
     for (let i = 0; i < buttons.length; i++) {
         let button = buttons[i];
         button.addEventListener('click', handleClick)
@@ -77,4 +98,8 @@ window.onload = (event) => {
 
 window.onresize = (event) => {
     setIconTextSize()
+    detectMobile.then((value) => {
+        setIconTextSize();
+        setButtonMargins();
+    })
 }
