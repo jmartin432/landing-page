@@ -1,7 +1,6 @@
 // let isMobile = false
 
 const detectMobile = new Promise((resolve, reject) => {
-    console.log('detect')
     const toMatch = [
         /Android/i,
         /webOS/i,
@@ -43,7 +42,6 @@ function setIconTextSize() {
     let headerImage = document.querySelectorAll('.header-image')
     let fontSize = Math.floor(windowWidth * .05)
     let headerImageSize = Math.floor(windowWidth * .25)
-    // console.log("setting Size", windowWidth, windowHeight, fontSize)
     for (let i = 0; i < links.length; i++){
         let link = links[i];
         let icon = linkIcons[i];
@@ -58,7 +56,6 @@ function setIconTextSize() {
 function handleClick(event) {
     let id = event.currentTarget.id
     detectMobile.then((value) => {
-        console.log(id, value)
         switch(id) {
             case 'instagram':
                 if (value)
