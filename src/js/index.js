@@ -1,6 +1,7 @@
-let isMobile
+// let isMobile = false
 
 const detectMobile = new Promise((resolve, reject) => {
+    console.log('detect')
     const toMatch = [
         /Android/i,
         /webOS/i,
@@ -14,7 +15,6 @@ const detectMobile = new Promise((resolve, reject) => {
     let mobile = toMatch.some((toMatchItem) => {
         return navigator.userAgent.match(toMatchItem);
     });
-    // console.log('Mobile: ', mobile)
     resolve (mobile)
 })
 
@@ -57,31 +57,34 @@ function setIconTextSize() {
 
 function handleClick(event) {
     let id = event.currentTarget.id
-    switch(id) {
-        case 'instagram':
-            if (isMobile)
-                window.open("instagram://user?username=jugglingtallguy")
-            else
-                window.open('https://www.instagram.com/jugglingtallguy/')
-            break
-        case 'venmo':
-            if (isMobile)
-                window.open('https://www.venmo.com/justinlmartin?txn=pay')
-            else
-                window.open('https://www.venmo.com/u/justinlmartin')
-            break
-        case 'email':
-            window.open('mailto:info@justinlmartin.com')
-            break
-        case 'coding-portfolio':
-            window.open('https://coding-portfolio.justinlmartin.com')
-            break
-        case 'github':
-            window.open('https://github.com/jmartin432')
-            break
-        default:
-            return
-    }
+    detectMobile.then((value) => {
+        console.log(id, value)
+        switch(id) {
+            case 'instagram':
+                if (value)
+                    window.open("instagram://user?username=jugglingtallguy")
+                else
+                    window.open('https://www.instagram.com/jugglingtallguy/')
+                break
+            case 'venmo':
+                if (value)
+                    window.open('https://www.venmo.com/justinlmartin?txn=pay')
+                else
+                    window.open('https://www.venmo.com/u/justinlmartin')
+                break
+            case 'email':
+                window.open('mailto:info@justinlmartin.com')
+                break
+            case 'coding-portfolio':
+                window.open('https://coding-portfolio.justinlmartin.com')
+                break
+            case 'github':
+                window.open('https://github.com/jmartin432')
+                break
+            default:
+                return
+        }
+    })
 }
 
 window.onload = (event) => {
@@ -99,7 +102,7 @@ window.onload = (event) => {
 window.onresize = (event) => {
     setIconTextSize()
     detectMobile.then((value) => {
+        setButtonMargins(value);
         setIconTextSize();
-        setButtonMargins();
     })
 }
