@@ -1,25 +1,50 @@
 :root {
-  --font-name: 'Fjalla One', sans-serif;
+    --font-name: 'Fjalla One', sans-serif;
 }
 
-body{
+body {
     background-color: plum;
     margin: 0px 10px 0px 10px;
 }
 
-.header-image{
-    display: block;
-    margin: 20px auto 10px auto;
-    border: 5px solid slategray;
-    border-radius: 10px;
+.image-overlay-container {
+    position: relative;
+    display: inline-block; /* <= shrinks container to image size */
+    transition: transform 150ms ease-in-out;
 }
 
-h1{
+.image-overlay-container image { /* <= optional, for responsiveness */
+    display: block;
+    max-width: 100%;
+    height: auto;
+    /*clip-path: url(#clip-path);*/
+}
+
+.image-overlay-container svg {
+    border: 1px solid slategray;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.header-image {
+    display: block;
+    margin: 0px auto 0px auto;
+    /*border: 5px solid slategray;*/
+    /*border-radius: 10px;*/
+}
+
+#header-svg-path {
+    z-index: 10;
+}
+
+h1 {
     text-align: center;
     color: #3c0f77;
 }
 
-.link-container{
+.link-container {
     text-align: center;
     display: flex;
     background-color: powderblue;
@@ -31,33 +56,33 @@ h1{
     vertical-align: middle;
 }
 
-.link-container:hover{
+.link-container:hover {
     cursor: pointer;
 }
 
-.link-icon-box{
+.link-icon-box {
     vertical-align: middle;
     padding: 5px;
     flex: 1;
     margin: 10px;
 }
 
-.link-icon{
+.link-icon {
     display: inline;
     margin: auto;
 }
 
-.link-text-box{
+.link-text-box {
     vertical-align: middle;
     margin: auto;
     flex: 9;
 }
 
-.link-text{
+.link-text {
     text-decoration: none;
     color: #3c0f77;
 }
 
-footer{
+footer {
     text-align: center;
 }

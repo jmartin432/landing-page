@@ -22,7 +22,9 @@
     "url": "https://github.com/jmartin432/landing-page/issues"
   },
   "homepage": "https://github.com/jmartin432/landing-page#readme",
-  "dependencies": {},
+  "dependencies": {
+    "simplex-noise": "^3.0.0"
+  },
   "devDependencies": {
     "@babel/core": "7.10.5",
     "babel-loader": "8.1.0",

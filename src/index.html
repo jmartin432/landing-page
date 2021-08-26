@@ -15,7 +15,37 @@
 </head>
 <body>
     <div class="heading">
-        <img class="header-image" src="images/landingPageFace.jpg" alt="Me!">
+        <div class="image-overlay-container">
+            <svg id="header-svg" viewBox="">
+                <g>
+                <defs>
+                    <filter id="glow">
+                        <feGaussianBlur class="blur" result="coloredBlur" stdDeviation="4"></feGaussianBlur>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"></feMergeNode>
+                            <feMergeNode in="coloredBlur"></feMergeNode>
+                            <feMergeNode in="coloredBlur"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                        </feMerge>
+                    </filter>
+                    <clipPath id="clip-path" clipPathUnits="objectBoundingBox">
+                        <path id="header-svg-clip-path" d=""  transform="translate(.5,.5) scale(.5)"></path>
+                    </clipPath>
+                </defs>
+                </g>
+                <image class="header-image" id="header-image"
+                       style="clip-path: url(#clip-path);"
+                       href="images/landingPageFace.jpg" width="" height=""></image>
+                <path id="header-svg-path" d="" stroke="purple" fill="none" style="filter: url(#glow);" transform="" stroke-width="3" vector-effect="non-scaling-stroke"></path>
+<!--                <path id="header-svg-path" d="" stroke="purple" fill="none" transform="" stroke-width="3" vector-effect="non-scaling-stroke"></path>-->
+
+            </svg>
+
+<!--            <svg>-->
+<!--                <img class="header-image" src="images/landingPageFace.jpg" alt="Me!">-->
+<!--                <path id="header-img-svg" d="" stroke="purple" stroke-width="1" fill="none" filter="url(#glow)"></path>-->
+<!--            </svg>-->
+        </div>
         <h1>Justin L. Martin</h1>
     </div>
     <div class="link-container" id="instagram">
