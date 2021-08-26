@@ -30,7 +30,7 @@ const detectMobile = new Promise((resolve, reject) => {
     resolve (mobile)
 })
 
-function makePath(points) {
+function makePath() {
     let data = 'M ' + points[1].x + ' ' + points[1].y;
     for (let i = 2; i < points.length - 2; i += 3) {
         data = data + ' C ' + points[i].x + ' ' + points[i].y + ' ' +
@@ -47,7 +47,6 @@ function makePath(points) {
 }
 
 function makePathPoints() {
-    // const points = [];
     const numPoints = 8;
     const angleStep = (Math.PI * 2) / numPoints;
     let radius = .95;
@@ -59,37 +58,80 @@ function makePathPoints() {
             type: 'anchor',
             x: Math.cos(theta) * radius,
             y: Math.sin(theta) * radius,
-            // originX: Math.cos(theta) * radius,
-            // originY: Math.sin(theta) * radius,
-            // noiseOffsetX: Math.random() * 1000,
-            // noiseOffsetY: Math.random() * 1000,
         }
 
-        let rDelta = Math.random() * .2 - .1
+        let noiseOffsetX = Math.random() * 1000
+        let noiseOffsetY = Math.random() * 1000
+        let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
+        // console.log(rDelta, radius + rDelta)
+        // console.log(Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta))
+        // console.log(Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta))
 
         let controlPoint = {
             type: 'control',
             x: Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta),
             y: Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta),
-            originX: Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta),
-            originY: Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta),
-            noiseOffsetX: Math.random() * 1000,
-            noiseOffsetY: Math.random() * 1000,
+            noiseOffsetX: noiseOffsetX,
+            noiseOffsetY: noiseOffsetY,
         }
+        console.log(controlPoint)
+        console.log(points)
 
         let controlPointReflected = {
-            type: 'control',
+            type: 'reflected-control',
             x: 2 * anchor.x - controlPoint.x,
             y: 2 * anchor.y - controlPoint.y,
-            // originX: 2 * anchor.x - controlPoint.x,
-            // originY: 2 * anchor.y - controlPoint.y,
-            // noiseOffsetX: Math.random() * 1000,
-            // noiseOffsetY: Math.random() * 1000,
         }
 
         points.push(controlPointReflected, anchor, controlPoint);
     }
+    // console.log(points)
+    // alert()
     // return points;
+}
+
+function updatePathPoints(){
+    const numPoints = points.length / 3;
+    const angleStep = (Math.PI * 2) / numPoints;
+    let radius = .95;
+    let noiseStep = .005
+    for (let i = 0; i < numPoints; i++) {
+        let theta = i * angleStep;
+
+        const reflectedControlPoint = points[3 * i]
+        const anchor = points[3 * i + 1]
+        const controlPoint = points[3 * i + 2];
+
+        let noiseOffsetX = controlPoint.noiseOffsetX
+        let noiseOffsetY = controlPoint.noiseOffsetY
+        let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
+        // console.log(rDelta, radius + rDelta)
+
+        controlPoint.x = Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta);
+        controlPoint.y = Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta);
+
+        controlPoint.noiseOffsetX += noiseStep;
+        controlPoint.noiseOffsetY += noiseStep;
+
+        reflectedControlPoint.x = 2 * anchor.x - controlPoint.x
+        reflectedControlPoint.y = 2 * anchor.y - controlPoint.y
+    }
+    // console.log(points)
+    // alert()
+}
+
+function map(n, start1, end1, start2, end2) {
+    return ((n - start1) / (end1 - start1)) * (end2 - start2) + start2;
+}
+
+function animate() {
+    const headerClipPath = document.getElementById('header-svg-clip-path')
+    const headerSvgPath = document.getElementById('header-svg-path')
+    updatePathPoints()
+    const path = makePath()
+    headerClipPath.setAttribute('d', path)
+    headerSvgPath.setAttribute('d', path)
+    requestAnimationFrame(animate);
 }
 
 function setButtonMargins(mobile) {
@@ -168,41 +210,7 @@ function handleClick(event) {
     })
 }
 
-function map(n, start1, end1, start2, end2) {
-    return ((n - start1) / (end1 - start1)) * (end2 - start2) + start2;
-}
 
-function animate() {
-    const headerClipPath = document.getElementById('header-svg-clip-path')
-    const headerSvgPath = document.getElementById('header-svg-path')
-    const path = makePath(points)
-    headerClipPath.setAttribute('d', path)
-    headerSvgPath.setAttribute('d', path)
-    for (let i = 2; i < points.length; i += 3) {
-        const point = points[i];
-        const anchor = points[i - 1]
-        const reflectedPoint = points[i - 2]
-
-        // return a pseudo random value between -1 / 1 based on this point's current x, y positions in "time"
-        const nX = noise(point.noiseOffsetX, point.noiseOffsetX);
-        const nY = noise(point.noiseOffsetY, point.noiseOffsetY);
-        // map this noise value to a new value, somewhere between it's original location -20 and it's original location + 20
-        const x = map(nX, -1, 1, point.originX - .1, point.originX + .1);
-        const y = map(nY, -1, 1, point.originY - .1, point.originY + .1);
-
-        // update the point's current coordinates
-        point.x = x;
-        point.y = y;
-
-        // progress the point's x, y values through "time"
-        point.noiseOffsetX += noiseStep;
-        point.noiseOffsetY += noiseStep;
-
-        reflectedPoint.x = 2 * anchor.x - point.x
-        reflectedPoint.y = 2 * anchor.y - point.y
-    }
-    requestAnimationFrame(animate);
-}
 
 window.onload = (event) => {
     // const headerClipPath = document.getElementById('header-svg-clip-path')
