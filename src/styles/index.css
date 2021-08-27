@@ -1,5 +1,6 @@
 :root {
-    --font-name: 'Fjalla One', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -7,39 +8,40 @@ body {
     margin: 0px 10px 0px 10px;
 }
 
-.image-overlay-container {
-    position: relative;
-    display: inline-block; /* <= shrinks container to image size */
-    transition: transform 150ms ease-in-out;
+.container{
+    display: block;
 }
 
-.image-overlay-container image { /* <= optional, for responsiveness */
+#main-container {
+    position: relative;
+    display: block;
+}
+
+#header-image-container {
+    margin: 20px 0px 0px 0px
+}
+
+#header-image-container image {
     display: block;
     max-width: 100%;
     height: auto;
-    /*clip-path: url(#clip-path);*/
+    margin: 0px auto 0px auto;
 }
 
-.image-overlay-container svg {
-    border: 1px solid slategray;
-    padding: 15px;
-    position: absolute;
+#header-image-container svg {
+    display: block;
+    margin: auto;
+    position: relative;
     top: 0;
     left: 0;
 }
 
-.header-image {
-    display: block;
-    margin: 0px auto 0px auto;
-    /*border: 5px solid slategray;*/
-    /*border-radius: 10px;*/
+#header-container {
+
 }
 
-#header-svg-path {
-    z-index: 10;
-}
-
-h1 {
+#header-container h1 {
+    font-family: Poppins;
     text-align: center;
     color: #3c0f77;
 }
@@ -51,8 +53,6 @@ h1 {
     border-radius: 10px;
     border: 5px solid slategray;
     width: 75%;
-    /*margin: 20px auto 20px auto;*/
-    /*padding: 10px;*/
     vertical-align: middle;
 }
 
@@ -83,6 +83,11 @@ h1 {
     color: #3c0f77;
 }
 
-footer {
+#footer-container {
+
+}
+
+#footer-container footer {
+    font-family: Roboto;
     text-align: center;
 }
