@@ -140,14 +140,13 @@ function setSizesAndMargins(mobile) {
     let header = document.getElementById('header')
     let headerSvg = document.getElementById('header-svg')
     header.style.fontSize = (fontSize + 10).toString() + "px"
-    headerSvg.setAttribute('width', headerImageSize.toString())
-    headerSvg.setAttribute('height', headerImageSize.toString())
+    // headerSvg.setAttribute('width', headerImageSize.toString())
+    // headerSvg.setAttribute('height', headerImageSize.toString())
 
     let linkContainers = document.querySelectorAll('.link-container')
     let links = document.querySelectorAll('.link-text')
     for (let i = 0; i < linkContainers.length; i++) {
-        // linkContainers[i].style.margin = mobile ? "40px auto 40px auto" : "20px auto 20px auto"
-        // linkContainers[i].style.padding = mobile ? "20px auto 20px auto" : "10px auto 10px auto"
+        linkContainers[i].style.margin = mobile ? "45px auto" : "25px auto"
         links[i].style.fontSize = fontSize.toString() + "px"
     }
 }
