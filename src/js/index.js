@@ -23,7 +23,7 @@ const detectMobile = new Promise((resolve, reject) => {
 const borderControl = (function() {
     const borderedElements = document.querySelectorAll('.border')
     const borders = []
-    const radius = .92
+    const radius = .93
     const numPoints = 8
     const angleStep = (Math.PI * 2) / numPoints;
     let noiseStep = .005
@@ -145,44 +145,11 @@ function setSizesAndMargins(mobile) {
 
     let linkContainers = document.querySelectorAll('.link-container')
     let links = document.querySelectorAll('.link-text')
-    let linkIcons = document.querySelectorAll('.link-icon')
     for (let i = 0; i < linkContainers.length; i++) {
         // linkContainers[i].style.margin = mobile ? "40px auto 40px auto" : "20px auto 20px auto"
         // linkContainers[i].style.padding = mobile ? "20px auto 20px auto" : "10px auto 10px auto"
         links[i].style.fontSize = fontSize.toString() + "px"
-        linkIcons[i].width = fontSize.toString()
     }
-}
-
-function handleClick(event) {
-    let id = event.currentTarget.id
-    detectMobile.then((value) => {
-        switch(id) {
-            case 'instagram':
-                if (value)
-                    window.open("instagram://user?username=jugglingtallguy")
-                else
-                    window.open('https://www.instagram.com/jugglingtallguy/')
-                break
-            case 'venmo':
-                if (value)
-                    window.open('https://www.venmo.com/justinlmartin?txn=pay')
-                else
-                    window.open('https://www.venmo.com/u/justinlmartin')
-                break
-            case 'email':
-                window.open('mailto:info@justinlmartin.com')
-                break
-            case 'coding-portfolio':
-                window.open('https://coding-portfolio.justinlmartin.com')
-                break
-            case 'github':
-                window.open('https://github.com/jmartin432')
-                break
-            default:
-                return
-        }
-    })
 }
 
 function setColors() {
@@ -199,18 +166,31 @@ function setColors() {
     }
 }
 
-function setListeners() {
-    let buttons = document.getElementsByClassName('link-container')
-    for (let i = 0; i < buttons.length; i++) {
-        let button = buttons[i];
-        button.addEventListener('click', handleClick)
+// function setListeners() {
+//     let buttons = document.getElementsByClassName('link-container')
+//     for (let i = 0; i < buttons.length; i++) {
+//         let button = buttons[i];
+//         button.addEventListener('click', handleClick)
+//     }
+// }
+
+    function setLinks(mobile) {
+        if (mobile) {
+             document.getElementById('instagram-a')
+                .setAttribute('href', 'instagram://user?username=jugglingtallguy')
+            document.getElementById('venmo-a')
+                .setAttribute('href', 'https://www.venmo.com/justinlmartin?txn=pay')
+
+        }
     }
-}
+
+
 
 window.onload = (event) => {
     setColors()
-    setListeners()
+    // setListeners()
     detectMobile.then((value) => {
+        setLinks(value)
         setSizesAndMargins(value);
     })
     const borderController = borderControl()

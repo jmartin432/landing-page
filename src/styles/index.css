@@ -3,18 +3,6 @@
     font-family: 'Roboto', sans-serif;
 }
 
-@keyframes rotate {
-    0% {
-        filter: hue-rotate(0deg);
-    }
-    50% {
-        filter: hue-rotate(60deg);
-    }
-    100% {
-        filter: hue-rotate(0deg);
-    }
-}
-
 body {
     background-color: #1a1818;
     margin: 0px;
@@ -27,6 +15,10 @@ body {
 #main-container {
     position: relative;
     display: block;
+}
+
+#svg-defs {
+    height: 0px;
 }
 
 #header-image-container {
@@ -61,7 +53,7 @@ body {
     font-family: Poppins;
     text-shadow: 3px 3px 2px #807282;
     text-align: center;
-    color: #3c0f77;
+    color: #f2aad3;
 }
 
 .links-container {
@@ -72,6 +64,8 @@ body {
 .link-container {
     position: relative;
     text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
     margin-left: auto;
     margin-right: auto;
     width: 75%;
@@ -85,6 +79,7 @@ body {
 }
 
 .link-svg {
+    pointer-events: none;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -104,7 +99,7 @@ body {
 }
 
 .link-container:hover {
-    cursor: pointer;
+    /*cursor: pointer;*/
     /*filter: blur(5px);*/
 }
 
