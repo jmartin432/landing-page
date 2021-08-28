@@ -146,7 +146,7 @@ function setSizesAndMargins(mobile) {
     let linkContainers = document.querySelectorAll('.link-container')
     let links = document.querySelectorAll('.link-text')
     for (let i = 0; i < linkContainers.length; i++) {
-        linkContainers[i].style.margin = mobile ? "45px auto" : "25px auto"
+        linkContainers[i].style.margin = mobile ? "65px auto" : "25px auto"
         links[i].style.fontSize = fontSize.toString() + "px"
     }
 }
