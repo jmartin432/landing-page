@@ -28,6 +28,11 @@
                 <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
                     <feGaussianBlur result="coloredBlur" stdDeviation=".015"></feGaussianBlur>
                 </filter>
+                <radialGradient id="eye-gradient">-->
+                    <stop class="gradient-stop" id="eye-gradient-stop-1" offset="0%"/>
+                    <stop class="gradient-stop" id="eye-gradient-stop-2" offset="50%"/>
+                    <stop class="gradient-stop" id="eye-gradient-stop-3" offset="100%"/>
+                </radialGradient>
                 <clipPath class="svg-clip-path" id="header-img-clip-path" clipPathUnits="objectBoundingBox">
                     <use xlink:href="#header-img-path"></use>
                 </clipPath>
@@ -54,9 +59,11 @@
         <div class=container id="header-image-container">
             <svg id="header-svg" viewBox="0 0 1 1">
                 <g>
+                    <circle id="eye-circle-1" cx=".31" cy=".5" r=".13" fill="url(#eye-gradient)"/>-->
+                    <circle id="eye-circle-2" cx=".62" cy=".425" r=".13" fill="url(#eye-gradient)"/>
                     <image class="header-image" id="header-image"
                            style="clip-path: url(#header-img-clip-path);"
-                           href="images/landingPageFace.jpg" width="1" height="1"></image>
+                           href="images/landingPageFaceEyeClip.png" width="1" height="1"></image>
                     <use class="border-glow-path" id="header-img-border-glow-path"
                          xlink:href="#header-img-path"
                          stroke-width="10"

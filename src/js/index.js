@@ -22,15 +22,43 @@ const detectMobile = new Promise((resolve, reject) => {
 
 const borderControl = (function() {
     const borderedElements = document.querySelectorAll('.border')
+    const eyeGradientStops = document.getElementsByClassName('gradient-stop')
     const borders = []
     const radius = .93
     const numPoints = 8
     const angleStep = (Math.PI * 2) / numPoints;
     let noiseStep = .005
+    const gradientStopColors = []
 
     function noise(x, y) {
         return simplex.noise2D(x, y);
     }
+
+    const parseGradientStopColors = function() {
+        for (let i = 0; i < eyeGradientStops.length; i++) {
+            let hslString = eyeGradientStops[i].getAttribute('stop-color')
+            let hsl = hslString.replace("hsl(", "")
+                .replace("%", "")
+                .replace("%", "")
+                .replace(")", "")
+                .split(",")
+            gradientStopColors.push({
+                h: hsl[0],
+                s: hsl[1],
+                l: hsl[2]
+            })
+        }
+    }
+
+    const updateGradientStopColors = function() {
+        gradientStopColors.forEach((color, index) => {
+            color.h = (color.h + 1) % 360
+            eyeGradientStops[index]
+                .setAttribute("stop-color", 'hsl(' + color.h.toString() + ',50%,75%)')
+
+        })
+    }
+
 
     const createPoints = function () {
         for (let i = 0; i < borderedElements.length; i++) {
@@ -118,6 +146,7 @@ const borderControl = (function() {
 
     const animateBorders = function() {
         updatePoints()
+        updateGradientStopColors()
         borders.forEach((points, index) => {
             borderedElements[index].setAttribute('d', makePath(points))
         })
@@ -128,7 +157,8 @@ const borderControl = (function() {
         createPoints: createPoints,
         setPathData: setPathData,
         updatePoints: updatePoints,
-        animateBorders: animateBorders
+        animateBorders: animateBorders,
+        parseGradientStopColors: parseGradientStopColors
     }
 })
 
@@ -163,6 +193,11 @@ function setColors() {
             links[i-1].style.backgroundColor = 'hsl(' + hue.toString() + ',50%,75%)'
         }
     }
+    let eyeGradientStops = document.getElementsByClassName('gradient-stop')
+    for (let i = 0; i < eyeGradientStops.length; i++) {
+        let hue = Math.floor(Math.random() * 360)
+        eyeGradientStops[i].setAttribute('stop-color', 'hsl(' + hue.toString() + ',50%,75%)')
+    }
 }
 
 // function setListeners() {
@@ -195,6 +230,7 @@ window.onload = (event) => {
     const borderController = borderControl()
     borderController.createPoints()
     borderController.setPathData()
+    borderController.parseGradientStopColors()
     borderController.animateBorders()
 }
 
