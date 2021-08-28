@@ -3,99 +3,6 @@ import SimplexNoise from 'simplex-noise';
 
 const simplex = new SimplexNoise();
 
-const svgPathHandler = (function() {
-    const points = []
-
-    function noise(x, y) {
-        return simplex.noise2D(x, y);
-    }
-
-    let create = function (numPoints) {
-        const angleStep = (Math.PI * 2) / numPoints;
-        let radius = .90;
-
-        for (let i = 0; i < numPoints; i++) {
-            let theta = i * angleStep;
-
-            let anchor = {
-                type: 'anchor',
-                x: Math.cos(theta) * radius,
-                y: Math.sin(theta) * radius,
-            }
-
-            let noiseOffsetX = Math.random() * 1000
-            let noiseOffsetY = Math.random() * 1000
-            let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
-
-            let controlPoint = {
-                type: 'control',
-                x: Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta),
-                y: Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta),
-                noiseOffsetX: noiseOffsetX,
-                noiseOffsetY: noiseOffsetY,
-            }
-
-            let controlPointReflected = {
-                type: 'reflected-control',
-                x: 2 * anchor.x - controlPoint.x,
-                y: 2 * anchor.y - controlPoint.y,
-            }
-
-            points.push(controlPointReflected, anchor, controlPoint);
-        }
-        return points
-    };
-
-    let update = function() {
-        const numPoints = points.length / 3;
-        const angleStep = (Math.PI * 2) / numPoints;
-        let radius = .95;
-        let noiseStep = .005
-        for (let i = 0; i < numPoints; i++) {
-            let theta = i * angleStep;
-
-            const reflectedControlPoint = points[3 * i]
-            const anchor = points[3 * i + 1]
-            const controlPoint = points[3 * i + 2];
-
-            let noiseOffsetX = controlPoint.noiseOffsetX
-            let noiseOffsetY = controlPoint.noiseOffsetY
-            let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
-
-            controlPoint.x = Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta);
-            controlPoint.y = Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta);
-
-            controlPoint.noiseOffsetX += noiseStep;
-            controlPoint.noiseOffsetY += noiseStep;
-
-            reflectedControlPoint.x = 2 * anchor.x - controlPoint.x
-            reflectedControlPoint.y = 2 * anchor.y - controlPoint.y
-        }
-    }
-
-    let makePath = function() {
-        let data = 'M ' + points[1].x + ' ' + points[1].y;
-        for (let i = 2; i < points.length - 2; i += 3) {
-            data = data + ' C ' + points[i].x + ' ' + points[i].y + ' ' +
-                points[i + 1].x + ' ' + points[i + 1].y + ' ' +
-                points[i + 2].x + ' ' + points[i + 2].y
-        }
-        // here we are adding the last control point  which is a reflection of the first control point and then
-        // adding the last anchor point to close the loop
-        data = data + ' C ' + points[points.length - 1].x + ' ' + points[points.length - 1].y + ' ' +
-            points[0].x + ' ' + points[0].y + ' ' +
-            points[1].x + ' ' + points[1].y
-        return data
-    }
-
-    return {
-        points: points,
-        create: create,
-        update: update,
-        makePath: makePath
-    }
-})
-
 const detectMobile = new Promise((resolve, reject) => {
     const toMatch = [
         /Android/i,
@@ -113,21 +20,117 @@ const detectMobile = new Promise((resolve, reject) => {
     resolve (mobile)
 })
 
-function animate(points1, points2, points3, points4, points5, points6) {
-    points1.update()
-    points2.update()
-    points3.update()
-    points4.update()
-    points5.update()
-    points6.update()
-    document.getElementById('header-img-path').setAttribute('d', points1.makePath())
-    document.getElementById('link-1-path').setAttribute('d', points2.makePath())
-    document.getElementById('link-2-path').setAttribute('d', points3.makePath())
-    document.getElementById('link-3-path').setAttribute('d', points4.makePath())
-    document.getElementById('link-4-path').setAttribute('d', points5.makePath())
-    document.getElementById('link-5-path').setAttribute('d', points6.makePath())
-    requestAnimationFrame(function(timestamp) {animate(points1, points2, points3, points4, points5, points6)});
-}
+const borderControl = (function() {
+    const borderedElements = document.querySelectorAll('.border')
+    const borders = []
+    const radius = .92
+    const numPoints = 8
+    const angleStep = (Math.PI * 2) / numPoints;
+    let noiseStep = .005
+
+    function noise(x, y) {
+        return simplex.noise2D(x, y);
+    }
+
+    const createPoints = function () {
+        for (let i = 0; i < borderedElements.length; i++) {
+            let points = []
+            for (let i = 0; i < numPoints; i++) {
+                let theta = i * angleStep;
+
+                let anchor = {
+                    type: 'anchor',
+                    x: Math.cos(theta) * radius,
+                    y: Math.sin(theta) * radius,
+                }
+
+                let noiseOffsetX = Math.random() * 1000
+                let noiseOffsetY = Math.random() * 1000
+                let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
+
+                let controlPoint = {
+                    type: 'control',
+                    x: Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta),
+                    y: Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta),
+                    noiseOffsetX: noiseOffsetX,
+                    noiseOffsetY: noiseOffsetY,
+                }
+
+                let controlPointReflected = {
+                    type: 'reflected-control',
+                    x: 2 * anchor.x - controlPoint.x,
+                    y: 2 * anchor.y - controlPoint.y,
+                }
+
+                points.push(controlPointReflected, anchor, controlPoint);
+            }
+            borders.push(points)
+        }
+    }
+
+    const updatePoints = function() {
+        if (borders.length === 0) return
+        for (let i = 0; i < borders.length; i++) {
+            let points = borders[i];
+            for (let j = 0; j < numPoints; j++) {
+                let theta = j * angleStep;
+
+                const reflectedControlPoint = points[3 * j]
+                const anchor = points[3 * j + 1]
+                const controlPoint = points[3 * j + 2];
+
+                let noiseOffsetX = controlPoint.noiseOffsetX
+                let noiseOffsetY = controlPoint.noiseOffsetY
+                let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
+
+                controlPoint.x = Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta);
+                controlPoint.y = Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta);
+
+                controlPoint.noiseOffsetX += noiseStep;
+                controlPoint.noiseOffsetY += noiseStep;
+
+                reflectedControlPoint.x = 2 * anchor.x - controlPoint.x
+                reflectedControlPoint.y = 2 * anchor.y - controlPoint.y
+            }
+        }
+    }
+
+    const makePath = function(points) {
+        let data = 'M ' + points[1].x + ' ' + points[1].y;
+        for (let i = 2; i < points.length - 2; i += 3) {
+            data = data + ' C ' + points[i].x + ' ' + points[i].y + ' ' +
+                points[i + 1].x + ' ' + points[i + 1].y + ' ' +
+                points[i + 2].x + ' ' + points[i + 2].y
+        }
+        // here we are adding the last control point  which is a reflection of the first control point and then
+        // adding the last anchor point to close the loop
+        data = data + ' C ' + points[points.length - 1].x + ' ' + points[points.length - 1].y + ' ' +
+            points[0].x + ' ' + points[0].y + ' ' +
+            points[1].x + ' ' + points[1].y
+        return data
+    }
+
+    const setPathData = function() {
+        borders.forEach((points, index) => {
+            borderedElements[index].setAttribute('d', makePath(points))
+        })
+    }
+
+    const animateBorders = function() {
+        updatePoints()
+        borders.forEach((points, index) => {
+            borderedElements[index].setAttribute('d', makePath(points))
+        })
+        requestAnimationFrame(animateBorders)
+    }
+
+    return {
+        createPoints: createPoints,
+        setPathData: setPathData,
+        updatePoints: updatePoints,
+        animateBorders: animateBorders
+    }
+})
 
 function setSizesAndMargins(mobile) {
     let windowWidth = window.innerWidth
@@ -188,7 +191,6 @@ function setColors() {
     let links = document.getElementsByClassName('link')
     for (let i = 0; i < borderPaths.length; i++) {
         let hue = Math.floor(Math.random() * 360)
-        let hsl = 'hsl(' + hue.toString() + ',100%,59%)'
         borderPaths[i].setAttribute('stroke', 'hsl(' + hue.toString() + ',100%,50%)')
         borderGlowPaths[i].setAttribute('stroke', 'hsl(' + hue.toString() + ',50%,65%)')
         if (i > 0) {
@@ -211,19 +213,10 @@ window.onload = (event) => {
     detectMobile.then((value) => {
         setSizesAndMargins(value);
     })
-    const headerImagePoints = svgPathHandler()
-    const link1Points = svgPathHandler()
-    const link2Points = svgPathHandler()
-    const link3Points = svgPathHandler()
-    const link4Points = svgPathHandler()
-    const link5Points = svgPathHandler()
-    headerImagePoints.create(8)
-    link1Points.create(8)
-    link2Points.create(8)
-    link3Points.create(8)
-    link4Points.create(8)
-    link5Points.create(8)
-    animate(headerImagePoints, link1Points, link2Points, link3Points, link4Points, link5Points)
+    const borderController = borderControl()
+    borderController.createPoints()
+    borderController.setPathData()
+    borderController.animateBorders()
 }
 
 window.onresize = (event) => {

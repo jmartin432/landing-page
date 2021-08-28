@@ -134,10 +134,11 @@ body {
 }
 
 #footer-container {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 #footer-container footer {
     font-family: Roboto;
+    color: #f2aad3;
     text-align: center;
 }
