@@ -1,9 +1,10 @@
 // let isMobile = false
 import SimplexNoise from 'simplex-noise';
 
+const simplex = new SimplexNoise();
+
 const svgPathHandler = (function() {
     const points = []
-    const simplex = new SimplexNoise();
 
     function noise(x, y) {
         return simplex.noise2D(x, y);
@@ -112,16 +113,25 @@ const detectMobile = new Promise((resolve, reject) => {
     resolve (mobile)
 })
 
-function animate(path) {
-    const headerImgPath = document.getElementById('header-img-path')
-    path.update()
-    headerImgPath.setAttribute('d', path.makePath())
-    requestAnimationFrame(function(timestamp) {animate(path)});
+function animate(points1, points2, points3, points4, points5, points6) {
+    points1.update()
+    points2.update()
+    points3.update()
+    points4.update()
+    points5.update()
+    points6.update()
+    document.getElementById('header-img-path').setAttribute('d', points1.makePath())
+    document.getElementById('link-1-path').setAttribute('d', points2.makePath())
+    document.getElementById('link-2-path').setAttribute('d', points3.makePath())
+    document.getElementById('link-3-path').setAttribute('d', points4.makePath())
+    document.getElementById('link-4-path').setAttribute('d', points5.makePath())
+    document.getElementById('link-5-path').setAttribute('d', points6.makePath())
+    requestAnimationFrame(function(timestamp) {animate(points1, points2, points3, points4, points5, points6)});
 }
 
 function setSizesAndMargins(mobile) {
     let windowWidth = window.innerWidth
-    let fontSize = Math.floor(windowWidth * .05)
+    let fontSize = Math.floor(windowWidth * .048)
     let headerImageSize = Math.floor(windowWidth * .25)
 
     let header = document.getElementById('header')
@@ -134,8 +144,8 @@ function setSizesAndMargins(mobile) {
     let links = document.querySelectorAll('.link-text')
     let linkIcons = document.querySelectorAll('.link-icon')
     for (let i = 0; i < linkContainers.length; i++) {
-        linkContainers[i].style.margin = mobile ? "40px auto 40px auto" : "20px auto 20px auto"
-        linkContainers[i].style.padding = mobile ? "20px auto 20px auto" : "10px auto 10px auto"
+        // linkContainers[i].style.margin = mobile ? "40px auto 40px auto" : "20px auto 20px auto"
+        // linkContainers[i].style.padding = mobile ? "20px auto 20px auto" : "10px auto 10px auto"
         links[i].style.fontSize = fontSize.toString() + "px"
         linkIcons[i].width = fontSize.toString()
     }
@@ -172,18 +182,48 @@ function handleClick(event) {
     })
 }
 
-window.onload = (event) => {
-    detectMobile.then((value) => {
-        setSizesAndMargins(value);
-    })
-    const headerImagePath = svgPathHandler()
-    headerImagePath.create(8)
+function setColors() {
+    let borderPaths = document.getElementsByClassName('border-path')
+    let borderGlowPaths = document.getElementsByClassName('border-glow-path')
+    let links = document.getElementsByClassName('link')
+    for (let i = 0; i < borderPaths.length; i++) {
+        let hue = Math.floor(Math.random() * 360)
+        let hsl = 'hsl(' + hue.toString() + ',100%,59%)'
+        borderPaths[i].setAttribute('stroke', 'hsl(' + hue.toString() + ',100%,50%)')
+        borderGlowPaths[i].setAttribute('stroke', 'hsl(' + hue.toString() + ',50%,65%)')
+        if (i > 0) {
+            links[i-1].style.backgroundColor = 'hsl(' + hue.toString() + ',50%,75%)'
+        }
+    }
+}
+
+function setListeners() {
     let buttons = document.getElementsByClassName('link-container')
     for (let i = 0; i < buttons.length; i++) {
         let button = buttons[i];
         button.addEventListener('click', handleClick)
     }
-    animate(headerImagePath)
+}
+
+window.onload = (event) => {
+    setColors()
+    setListeners()
+    detectMobile.then((value) => {
+        setSizesAndMargins(value);
+    })
+    const headerImagePoints = svgPathHandler()
+    const link1Points = svgPathHandler()
+    const link2Points = svgPathHandler()
+    const link3Points = svgPathHandler()
+    const link4Points = svgPathHandler()
+    const link5Points = svgPathHandler()
+    headerImagePoints.create(8)
+    link1Points.create(8)
+    link2Points.create(8)
+    link3Points.create(8)
+    link4Points.create(8)
+    link5Points.create(8)
+    animate(headerImagePoints, link1Points, link2Points, link3Points, link4Points, link5Points)
 }
 
 window.onresize = (event) => {

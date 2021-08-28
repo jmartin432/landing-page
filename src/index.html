@@ -16,34 +16,55 @@
 </head>
 <body>
     <div class=container id="main-container">
+        <svg id="svg-defs">
+            <defs>
+                <path class="svg-path" id="header-img-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path" id="header-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path" id="link-1-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path" id="link-2-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path" id="link-3-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path" id="link-4-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path" id="link-5-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feGaussianBlur result="coloredBlur" stdDeviation=".01"></feGaussianBlur>
+                </filter>
+                <clipPath class="svg-clip-path" id="header-img-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#header-img-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="header-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#header-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="link-1-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#link-1-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="link-2-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#link-2-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="link-3-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#link-3-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="link-4-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#link-4-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="link-5-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#link-5-path"></use>
+                </clipPath>
+            </defs>
+        </svg>
         <div class=container id="header-image-container">
             <svg id="header-svg" viewBox="0 0 1 1">
                 <g>
-                    <defs>
-                        <path id="header-img-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
-                        <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
-                            <feGaussianBlur result="coloredBlur" stdDeviation=".01"></feGaussianBlur>
-<!--                                <feMerge>-->
-<!--                                    <feMergeNode in="coloredBlur"></feMergeNode>-->
-<!--                                    <feMergeNode in="coloredBlur"></feMergeNode>-->
-<!--                                    <feMergeNode in="coloredBlur"></feMergeNode>-->
-<!--                                    <feMergeNode in="SourceGraphic"></feMergeNode>-->
-<!--                                </feMerge>-->
-                        </filter>
-                        <clipPath id="clip-path" clipPathUnits="objectBoundingBox">
-                            <use id="header-img-clip-path" xlink:href="#header-img-path"></use>
-                        </clipPath>
-                    </defs>
                     <image class="header-image" id="header-image"
-                           style="clip-path: url(#clip-path);"
+                           style="clip-path: url(#header-img-clip-path);"
                            href="images/landingPageFace.jpg" width="1" height="1"></image>
-                    <use id="header-img-border-glow-path" xlink:href="#header-img-path"
-                         style="fill-opacity: 0; stroke-width: 10; stroke: #9c2bad"
-                         vector-effect="non-scaling-stroke"
-                         filter="url(#glow)"></use>
-                    <use id="header-img-border-path" xlink:href="#header-img-path"
-                         style="fill-opacity: 0; stroke-width: 2; stroke: rebeccapurple"
-                         vector-effect="non-scaling-stroke"
+                    <use class="border-glow-path" id="header-img-border-glow-path"
+                         xlink:href="#header-img-path"
+                         stroke-width="10"
+                         filter="url(#glow)"
+                    ></use>
+                    <use class="border-path" id="header-img-border-path"
+                         xlink:href="#header-img-path"
+                         stroke-width="2"
                     ></use>
                 </g>
             </svg>
@@ -52,8 +73,8 @@
             <h1 id="header">Justin L. Martin</h1>
         </div>
         <div class="container" id="links-container">
-            <div>
-                <div class="container link-container" id="instagram">
+            <div class="container link-container" id="instagram">
+                <div class="link" style="clip-path: url(#link-1-clip-path);">
                     <div class="link-icon-box">
                         <img class="link-icon" src="images/instagramIcon200.png" alt="Instagram">
                     </div>
@@ -61,7 +82,24 @@
                         <span class="link-text">My Instagram</span>
                     </div>
                 </div>
-                <div class="container link-container" id="venmo">
+                <div class="link-svg">
+                    <svg id="link-1-svg" viewBox="0 0 1 1" preserveAspectRatio="none">
+                        <g>
+                            <use class="border-glow-path" id="link-1-border-glow-path"
+                                 xlink:href="#link-1-path"
+                                 stroke-width="10"
+                                 filter="url(#glow)"
+                            ></use>
+                            <use class="border-path" id="link-1-border-path"
+                                 xlink:href="#link-1-path"
+                                 stroke-width="2"
+                            ></use>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="container link-container" id="venmo">
+                <div class="link" style="clip-path: url(#link-2-clip-path);">
                     <div class="link-icon-box">
                         <img class="link-icon" src="images/venmoIcon200.png" alt="Venmo">
                     </div>
@@ -69,15 +107,49 @@
                         <span class="link-text">Send Me Money on Venmo</span>
                     </div>
                 </div>
-                <div class="container link-container" id="email">
+                <div class="link-svg">
+                    <svg id="link-2-svg" viewBox="0 0 1 1" preserveAspectRatio="none">
+                        <g>
+                            <use class="border-glow-path" id="link-2-border-glow-path"
+                                 xlink:href="#link-2-path"
+                                 stroke-width="10"
+                                 filter="url(#glow)"
+                            ></use>
+                            <use class="border-path" id="link-2-border-path"
+                                 xlink:href="#link-2-path"
+                                 stroke-width="2"
+                            ></use>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="container link-container" id="email">
+                <div class="link" style="clip-path: url(#link-3-clip-path);">
                     <div class="link-icon-box">
-                        <img class="link-icon" src="images/mailIcon200.png" alt="E-Mail">
+                        <img class="link-icon" src="images/mailIcon200.png" alt="Email">
                     </div>
                     <div class="link-text-box">
-                        <span class="link-text">Send Me an E-mail</span>
+                        <span class="link-text">Send Me an Email</span>
                     </div>
                 </div>
-                <div class="container link-container" id="coding-portfolio">
+                <div class="link-svg">
+                    <svg id="link-3-svg" viewBox="0 0 1 1" preserveAspectRatio="none">
+                        <g>
+                            <use class="border-glow-path" id="link-3-border-glow-path"
+                                 xlink:href="#link-3-path"
+                                 stroke-width="10"
+                                 filter="url(#glow)"
+                            ></use>
+                            <use class="border-path" id="link-3-border-path"
+                                 xlink:href="#link-3-path"
+                                 stroke-width="2"
+                            ></use>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="container link-container" id="coding-portfolio">
+                <div class="link" style="clip-path: url(#link-4-clip-path);">
                     <div class="link-icon-box">
                         <img class="link-icon" src="images/clubLogo200.png" alt="Clubs">
                     </div>
@@ -85,13 +157,45 @@
                         <span class="link-text">Coding Portfolio</span>
                     </div>
                 </div>
-                <div class="container link-container" id="github">
+                <div class="link-svg">
+                    <svg id="link-4-svg" viewBox="0 0 1 1" preserveAspectRatio="none">
+                        <g>
+                            <use class="border-glow-path" id="link-4-border-glow-path"
+                                 xlink:href="#link-4-path"
+                                 stroke-width="10"
+                                 filter="url(#glow)"
+                            ></use>
+                            <use class="border-path" id="link-4-border-path"
+                                 xlink:href="#link-4-path"
+                                 stroke-width="2"
+                            ></use>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="container link-container" id="github">
+                <div class="link" style="clip-path: url(#link-5-clip-path);">
                     <div class="link-icon-box">
-                        <img class="link-icon" src="images/githubIcon120.png" alt="GitHub">
+                        <img class="link-icon" src="images/githubIcon120.png" alt="Github">
                     </div>
                     <div class="link-text-box">
                         <span class="link-text">My Github</span>
                     </div>
+                </div>
+                <div class="link-svg">
+                    <svg id="link-5-svg" viewBox="0 0 1 1" preserveAspectRatio="none">
+                        <g>
+                            <use class="border-glow-path" id="link-5-border-glow-path"
+                                 xlink:href="#link-5-path"
+                                 stroke-width="10"
+                                 filter="url(#glow)"
+                            ></use>
+                            <use class="border-path" id="link-5-border-path"
+                                 xlink:href="#link-5-path"
+                                 stroke-width="2"
+                            ></use>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>

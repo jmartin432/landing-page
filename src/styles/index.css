@@ -3,9 +3,21 @@
     font-family: 'Roboto', sans-serif;
 }
 
+@keyframes rotate {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    50% {
+        filter: hue-rotate(60deg);
+    }
+    100% {
+        filter: hue-rotate(0deg);
+    }
+}
+
 body {
-    background-color: plum;
-    margin: 0px 10px 0px 10px;
+    background-color: #1a1818;
+    margin: 0px;
 }
 
 .container{
@@ -18,7 +30,7 @@ body {
 }
 
 #header-image-container {
-    margin: 20px 0px 0px 0px
+    margin: 20px 0px 0px 0px;
 }
 
 #header-image-container image {
@@ -36,28 +48,64 @@ body {
     left: 0;
 }
 
+#header-image-container use {
+    vector-effect: non-scaling-stroke;
+    fill-opacity: 0;
+}
+
 #header-container {
 
 }
 
 #header-container h1 {
     font-family: Poppins;
+    text-shadow: 3px 3px 2px #807282;
     text-align: center;
     color: #3c0f77;
 }
 
-.link-container {
-    text-align: center;
+.links-container {
     display: flex;
-    background-color: powderblue;
-    border-radius: 10px;
-    border: 5px solid slategray;
+    flex-direction: column;
+}
+
+.link-container {
+    position: relative;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     width: 75%;
     vertical-align: middle;
 }
 
+.link {
+    /*background-color: powderblue;*/
+    /*this is so the bottom of the clip path lines up with the bottom of the border svg*/
+    padding-bottom: 10px;
+}
+
+.link-svg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.link-svg svg {
+    width: 100%;
+    height: 100%;
+}
+
+.link-svg use {
+    vector-effect: non-scaling-stroke;
+    fill-opacity: 0;
+}
+
 .link-container:hover {
     cursor: pointer;
+    /*filter: blur(5px);*/
 }
 
 .link-icon-box {
@@ -79,12 +127,14 @@ body {
 }
 
 .link-text {
+    font-family: Poppins;
+    text-shadow: 3px 3px 2px #807282;
     text-decoration: none;
     color: #3c0f77;
 }
 
 #footer-container {
-
+    margin-top: 20px;
 }
 
 #footer-container footer {
