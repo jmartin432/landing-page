@@ -42,12 +42,16 @@ const borderControl = (function() {
                 .replace("%", "")
                 .replace(")", "")
                 .split(",")
+            let offsetString = eyeGradientStops[i].getAttribute('offset')
+            let offset = offsetString.replace("%", "")
             gradientStopColors.push({
                 h: hsl[0],
                 s: hsl[1],
-                l: hsl[2]
+                l: hsl[2],
+                offset: offset
             })
         }
+        console.log(gradientStopColors)
     }
 
     const updateGradientStopColors = function() {
@@ -57,6 +61,11 @@ const borderControl = (function() {
                 .setAttribute("stop-color", 'hsl(' + color.h.toString() + ',50%,75%)')
 
         })
+        // Not liking this :(
+        // if (gradientStopColors.length > 1) {
+        //     gradientStopColors[1].offset = (gradientStopColors[1].offset + 1) % 100;
+        //     eyeGradientStops[1].setAttribute('offset', gradientStopColors[1].offset.toString() + '%')
+        // }
     }
 
 
@@ -182,6 +191,7 @@ function setSizesAndMargins(mobile) {
 }
 
 function setColors() {
+    console.log('here')
     let borderPaths = document.getElementsByClassName('border-path')
     let borderGlowPaths = document.getElementsByClassName('border-glow-path')
     let links = document.getElementsByClassName('link')
