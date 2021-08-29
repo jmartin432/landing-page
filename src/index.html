@@ -25,6 +25,7 @@
                 <path class="svg-path border" id="link-3-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
                 <path class="svg-path border" id="link-4-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
                 <path class="svg-path border" id="link-5-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
+                <path class="svg-path border" id="link-6-path" d="" vector-effect="non-scaling-stroke" transform="translate(.5,.5) scale(.5)"></path>
                 <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
                     <feGaussianBlur result="coloredBlur" stdDeviation=".015"></feGaussianBlur>
                 </filter>
@@ -53,6 +54,9 @@
                 </clipPath>
                 <clipPath class="svg-clip-path" id="link-5-clip-path" clipPathUnits="objectBoundingBox">
                     <use xlink:href="#link-5-path"></use>
+                </clipPath>
+                <clipPath class="svg-clip-path" id="link-6-clip-path" clipPathUnits="objectBoundingBox">
+                    <use xlink:href="#link-6-path"></use>
                 </clipPath>
             </defs>
         </svg>
@@ -106,10 +110,6 @@
             </div>
             <div class="container link-container" id="venmo">
                 <div class="link" style="clip-path: url(#link-2-clip-path);">
-<!--                    leaving one evample-->
-<!--                    <div class="link-icon-box">-->
-<!--                        <img class="link-icon" src="images/venmoIcon200.png" alt="Venmo">-->
-<!--                    </div>-->
                     <div class="link-text-box">
                         <a class="link-text" id="venmo-a"
                            href="https://www.venmo.com/u/justinlmartin"
@@ -155,12 +155,10 @@
                     </svg>
                 </div>
             </div>
-            <div class="container link-container" id="coding-portfolio">
+            <div class="container link-container" id="postcard">
                 <div class="link" style="clip-path: url(#link-4-clip-path);">
                     <div class="link-text-box">
-                        <a class="link-text"
-                           href="https://coding-portfolio.justinlmartin.com"
-                           target="_blank">Coding Portfolio</a>
+                        <p>Send Me a Postard</p>
                     </div>
                 </div>
                 <div class="link-svg-container">
@@ -179,12 +177,12 @@
                     </svg>
                 </div>
             </div>
-            <div class="container link-container" id="github">
+            <div class="container link-container" id="coding-portfolio">
                 <div class="link" style="clip-path: url(#link-5-clip-path);">
                     <div class="link-text-box">
                         <a class="link-text"
-                           href="https://github.com/jmartin432"
-                           target="_blank">My Github</a>
+                           href="https://coding-portfolio.justinlmartin.com"
+                           target="_blank">Coding Portfolio</a>
                     </div>
                 </div>
                 <div class="link-svg-container">
@@ -197,6 +195,30 @@
                             ></use>
                             <use class="border-path" id="link-5-border-path"
                                  xlink:href="#link-5-path"
+                                 stroke-width="2"
+                            ></use>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="container link-container" id="github">
+                <div class="link" style="clip-path: url(#link-6-clip-path);">
+                    <div class="link-text-box">
+                        <a class="link-text"
+                           href="https://github.com/jmartin432"
+                           target="_blank">My Github</a>
+                    </div>
+                </div>
+                <div class="link-svg-container">
+                    <svg id="link-6-svg" viewBox="0 0 1 1" preserveAspectRatio="none">
+                        <g>
+                            <use class="border-glow-path" id="link-6-border-glow-path"
+                                 xlink:href="#link-6-path"
+                                 stroke-width="10"
+                                 filter="url(#glow)"
+                            ></use>
+                            <use class="border-path" id="link-6-border-path"
+                                 xlink:href="#link-6-path"
                                  stroke-width="2"
                             ></use>
                         </g>
