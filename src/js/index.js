@@ -1,5 +1,5 @@
-// let isMobile = false
 import SimplexNoise from 'simplex-noise';
+import * as setup from 'setup.js'
 
 const simplex = new SimplexNoise();
 
@@ -231,6 +231,7 @@ function setColors() {
 
 
 window.onload = (event) => {
+    setup.makeFooter()
     setColors()
     // setListeners()
     detectMobile.then((value) => {
