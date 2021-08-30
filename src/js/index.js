@@ -162,17 +162,6 @@ function setColors() {
 //     }
 // }
 
-    function setLinks(mobile) {
-        if (mobile) {
-             document.getElementById('instagram-a')
-                .setAttribute('href', 'instagram://user?username=jugglingtallguy')
-            document.getElementById('venmo-a')
-                .setAttribute('href', 'https://www.venmo.com/justinlmartin?txn=pay')
-
-        }
-    }
-
-
 
 window.onload = (event) => {
     let borders = []
@@ -185,15 +174,10 @@ window.onload = (event) => {
     setup.makeHeader()
    // // setColors()
    //  // setListeners()
-   //  detectMobile.then((value) => {
-   //      setLinks(value)
-   //      setSizesAndMargins(value);
-   //  })
-   //  const borderController = borderControl()
-   //  borderController.createPoints()
-   //  borderController.setPathData()
-   //  borderController.parseGradientStopColors()
-   //  borderController.animateBorders()
+    detectMobile.then((value) => {
+        setup.makeLinks(value)
+        setSizesAndMargins(value);
+    })
 }
 
 window.onresize = (event) => {

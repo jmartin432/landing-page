@@ -3,22 +3,22 @@ export const links = [
         id: 'instagram',
         text: 'My Instagram',
         altText: 'My Instagram',
-        link: '',
-        mobileLink: ''
+        link: 'https://www.instagram.com/jugglingtallguy/',
+        mobileLink: 'instagram://user?username=jugglingtallguy'
     },
     {
         id: 'venmo',
         text: 'Send Me Money on Venmo',
         altText: 'Send Me Money on Venmo',
-        link: '',
-        mobileLink: ''
+        link: 'https://www.venmo.com/u/justinlmartin',
+        mobileLink: 'https://www.venmo.com/justinlmartin?txn=pay'
     },
     {
         id: 'email',
         text: 'Send Me an E-mail',
         altText: 'Send Me an E-mail',
-        link: '',
-        mobileLink: ''
+        link: 'mailto:info@justinlmartin.com',
+        mobileLink: 'mailto:info@justinlmartin.com'
     },
     {
         id: 'postcard',
@@ -31,14 +31,14 @@ export const links = [
         id: 'coding-portfolio',
         text: 'Coding Portfolio',
         altText: 'Coding Portfolio',
-        link: '',
-        mobileLink: ''
+        link: 'https://coding-portfolio.justinlmartin.com',
+        mobileLink: 'https://coding-portfolio.justinlmartin.com'
     },
     {
         id: 'github',
         text: 'My Github',
         altText: 'My Github',
-        link: '',
-        mobileLink: ''
+        link: 'https://github.com/jmartin432',
+        mobileLink: 'https://github.com/jmartin432'
     },
 ]

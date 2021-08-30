@@ -1,5 +1,6 @@
 import * as linkData from './linkData'
 import {Border} from './Border'
+import {links} from "./linkData";
 
 function setAttributes(el, attrs) {
   for(let key in attrs) {
@@ -49,7 +50,6 @@ export function makeSvgDefs(b) {
 		clipPaths.push(clipPath)
 	}
 	for (let i = 0; i < paths.length; i++) {
-
 		paths[i].setAttribute( 'class', 'svg-path border')
 		paths[i].setAttribute( 'd', b[i].createPoints().makePath().path)
 
@@ -87,30 +87,17 @@ export function makeSvgDefs(b) {
 
 	let gradient = document.createElementNS('http://www.w3.org/2000/svg','radialGradient')
 	gradient.setAttribute('id', 'eye-gradient')
-	let stop1 = document.createElementNS('http://www.w3.org/2000/svg','stop')
-	setAttributes(stop1, {
-		class: 'gradient-stop',
-		id: 'eye-gradient-stop-1',
-		offset: '0%'
-	})
-	stop1.setAttribute('stop-color', makeColor(50, 75))
-	let stop2 = document.createElementNS('http://www.w3.org/2000/svg','stop')
-	setAttributes(stop2, {
-		class: 'gradient-stop',
-		id: 'eye-gradient-stop-2',
-		offset: '50%'
-	})
-	stop2.setAttribute('stop-color', makeColor(50, 75))
-	let stop3 = document.createElementNS('http://www.w3.org/2000/svg','stop')
-	setAttributes(stop3, {
-		class: 'gradient-stop',
-		id: 'eye-gradient-stop-3',
-		offset: '100%'
-	})
-	stop3.setAttribute('stop-color', makeColor(50, 75))
-	gradient.appendChild(stop1)
-	gradient.appendChild(stop2)
-	gradient.appendChild(stop3)
+	for (let i = 0; i < 3; i++) {
+		let stop = document.createElementNS('http://www.w3.org/2000/svg','stop')
+		setAttributes(stop, {
+			class: 'gradient-stop',
+			id: 'eye-gradient-stop-' + i.toString(),
+			'stop-color': makeColor(50, 75),
+			offset: (i * 50).toString() + '%'
+		})
+		gradient.appendChild(stop)
+	}
+
 	defs.appendChild(gradient)
 	svg.appendChild(defs)
 	container.appendChild(svg)
@@ -164,17 +151,17 @@ export function makeHeader() {
 		id: 'header-img-border-glow',
 		stroke: makeColor(50, 65),
 		filter: 'url(#glow)',
+		'stroke-width': '10'
 	})
-	glowBorder.setAttribute('stroke-width', '10')
 
 	let border = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+	border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
 	setAttributes(border, {
 		class: 'border',
 		id: 'header-img-border',
-		stroke: makeColor(100, 50)
+		stroke: makeColor(100, 50),
+		'stroke-width': '2'
 	})
-	border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
-	border.setAttribute('stroke-width', '2')
 
 	group.appendChild(circle1)
 	group.appendChild(circle2)
@@ -183,6 +170,75 @@ export function makeHeader() {
 	group.appendChild(border)
 	svg.appendChild(group)
 	container.appendChild(svg)
+}
+
+export function makeLinks(mobile) {
+	let container = document.getElementById('links-container')
+	for (let i = 0; i < links.length; i++) {
+		let linkContainer = document.createElement('div')
+		setAttributes(linkContainer, {
+			class: 'link-container',
+			id: links[i].id
+		})
+		let linkClipContainer = document.createElement('div')
+		setAttributes(linkClipContainer, {
+			class: 'link-clip-div',
+			style: 'clip-path: url(#link-' + i + '-clip-path);'
+		})
+		let linkTextBox = document.createElement('div')
+		setAttributes(linkTextBox, {
+			class: 'link-text-box'
+		})
+		let link = document.createElement('a')
+		setAttributes(link, {
+			class: 'link-text',
+			href: (mobile) ? links[i].mobileLink : links[i].link,
+			target: '_blank'
+		})
+		link.textContent = links[i].text
+
+		let linkSvgContainer = document.createElement('div')
+		setAttributes(linkSvgContainer, {
+			class: 'link-svg-container'
+		})
+		let linkSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+		setAttributes(linkSvg, {
+			id: 'link-' + i + '-svg',
+			viewBox: '0 0 1 1',
+			preserveAspectRatio: 'none'
+		})
+		let group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+		let glowBorder = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+		glowBorder.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#link-' + i + '-path')
+		setAttributes(glowBorder, {
+			class: 'border-glow',
+			id: 'link-' + i + '-border-glow',
+			stroke: makeColor(50, 65),
+			filter: 'url(#glow)',
+			'stroke-width': '10'
+		})
+
+		let border = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+		border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#link-' + i + '-path')
+		setAttributes(border, {
+			class: 'border',
+			id: 'link-' + i + '-border',
+			stroke: makeColor(100, 50),
+			'stroke-width': '2'
+		})
+
+		container.appendChild(linkContainer)
+
+		linkContainer.appendChild(linkClipContainer)
+		linkClipContainer.appendChild(linkTextBox)
+		linkTextBox.appendChild(link)
+
+		linkContainer.appendChild(linkSvgContainer)
+		linkSvgContainer.appendChild(linkSvg)
+		linkSvg.appendChild(group)
+		group.append(glowBorder)
+		group.appendChild(border)
+	}
 }
 
 export function makeFooter() {
