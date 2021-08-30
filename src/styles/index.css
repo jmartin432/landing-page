@@ -26,14 +26,7 @@ body {
     overflow: visible;
 }
 
-#header-image-container image {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: 0px auto 0px auto;
-}
-
-#header-svg {
+#header-image-container svg {
     display: block;
     margin: auto;
     position: relative;
@@ -42,6 +35,13 @@ body {
     left: 0;
     width: 25%;
     height: 25%;
+}
+
+#header-image-container image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0px auto 0px auto;
 }
 
 #header-image-container use {
