@@ -17,6 +17,10 @@ body {
     display: block;
 }
 
+#svg-defs-container svg {
+    height: 0px;
+}
+
 #svg-defs {
     height: 0px;
 }

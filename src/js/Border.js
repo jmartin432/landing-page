@@ -1,11 +1,4 @@
-import SimplexNoise from 'simplex-noise';
 import {AnchorPoint, ControlPoint, ReflectedControlPoint} from "./Points"
-import {links} from './linkData'
-const simplex = new SimplexNoise();
-
-function noise(x, y) {
-    return simplex.noise2D(x, y);
-}
 
 export function Border(id, size, radius, noiseStep) {
     this.id = id
@@ -49,11 +42,23 @@ Border.prototype.createPoints = function() {
 
         let anchor = new AnchorPoint(theta, this.radius)
         let controlPoint = new ControlPoint(theta + ((1 / 3) * this.angleStep), this.radius)
-        let controlPointReflected = new ReflectedControlPoint(2 * anchor.x - controlPoint.x, 2 * anchor.y - controlPoint.y)
+        let controlPointReflected = new ReflectedControlPoint(anchor, controlPoint)
 
         points.push(controlPointReflected, anchor, controlPoint);
     }
     this.points = points
+    return this
+}
+
+Border.prototype.updatePoints = function() {
+    for (let i = 0; i < this.size; i++) {
+        const reflectedControlPoint = this.points[3 * i]
+        const anchor = this.points[3 * i + 1]
+        const controlPoint = this.points[3 * i + 2];
+
+        controlPoint.updateNoiseOffsets(this.noiseStep).updateRadiusDelta().updateXY()
+        reflectedControlPoint.updateXY(anchor, controlPoint)
+    }
     return this
 }
 
@@ -74,7 +79,6 @@ Border.prototype.makePath = function() {
 }
 
 Border.prototype.setPathElementData = function() {
-    console.log(this.pathElement)
     this.pathElement.setAttribute('d', this.path)
     return this
 }

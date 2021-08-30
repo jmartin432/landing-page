@@ -1,6 +1,5 @@
-import * as setup from 'setup.js'
-import {links} from './linkData'
-import {Border} from "./Border";
+import * as setup from './setup.js'
+import * as animation from './animation'
 
 const detectMobile = new Promise((resolve, reject) => {
     const toMatch = [
@@ -17,102 +16,6 @@ const detectMobile = new Promise((resolve, reject) => {
         return navigator.userAgent.match(toMatchItem);
     });
     resolve (mobile)
-})
-
-const borderControl = (function() {
-    const borderedElements = document.querySelectorAll('.border')
-    const eyeGradientStops = document.getElementsByClassName('gradient-stop')
-    const borders = []
-    const radius = .93
-    const numPoints = 8
-    const angleStep = (Math.PI * 2) / numPoints;
-    let noiseStep = .005
-    const gradientStopColors = []
-
-    const parseGradientStopColors = function() {
-        for (let i = 0; i < eyeGradientStops.length; i++) {
-            let hslString = eyeGradientStops[i].getAttribute('stop-color')
-            let hsl = hslString.replace("hsl(", "")
-                .replace("%", "")
-                .replace("%", "")
-                .replace(")", "")
-                .split(",")
-            let offsetString = eyeGradientStops[i].getAttribute('offset')
-            let offset = offsetString.replace("%", "")
-            gradientStopColors.push({
-                h: hsl[0],
-                s: hsl[1],
-                l: hsl[2],
-                offset: offset
-            })
-        }
-        console.log(gradientStopColors)
-    }
-
-    const updateGradientStopColors = function() {
-        gradientStopColors.forEach((color, index) => {
-            color.h = (color.h + 1) % 360
-            eyeGradientStops[index]
-                .setAttribute("stop-color", 'hsl(' + color.h.toString() + ',50%,75%)')
-
-        })
-        // Not liking this :(
-        // if (gradientStopColors.length > 1) {
-        //     gradientStopColors[1].offset = (gradientStopColors[1].offset + 1) % 100;
-        //     eyeGradientStops[1].setAttribute('offset', gradientStopColors[1].offset.toString() + '%')
-        // }
-    }
-
-
-    // const updatePoints = function() {
-    //     if (borders.length === 0) return
-    //     for (let i = 0; i < borders.length; i++) {
-    //         let points = borders[i];
-    //         for (let j = 0; j < numPoints; j++) {
-    //             let theta = j * angleStep;
-    //
-    //             const reflectedControlPoint = points[3 * j]
-    //             const anchor = points[3 * j + 1]
-    //             const controlPoint = points[3 * j + 2];
-    //
-    //             let noiseOffsetX = controlPoint.noiseOffsetX
-    //             let noiseOffsetY = controlPoint.noiseOffsetY
-    //             let rDelta = .1 * noise(noiseOffsetX, noiseOffsetY)
-    //
-    //             controlPoint.x = Math.cos(theta + (1 / 3) * angleStep) * (radius + rDelta);
-    //             controlPoint.y = Math.sin(theta + (1 / 3) * angleStep) * (radius + rDelta);
-    //
-    //             controlPoint.noiseOffsetX += noiseStep;
-    //             controlPoint.noiseOffsetY += noiseStep;
-    //
-    //             reflectedControlPoint.x = 2 * anchor.x - controlPoint.x
-    //             reflectedControlPoint.y = 2 * anchor.y - controlPoint.y
-    //         }
-    //     }
-    // }
-
-    // const setPathData = function() {
-    //     borders.forEach((points, index) => {
-    //         borderedElements[index].setAttribute('d', makePath(points))
-    //     })
-    // }
-
-    const animateBorders = function() {
-        updatePoints()
-        updateGradientStopColors()
-        borders.forEach((points, index) => {
-            borderedElements[index].setAttribute('d', makePath(points))
-        })
-        requestAnimationFrame(animateBorders)
-    }
-
-    return {
-        createPoints: createPoints,
-        setPathData: setPathData,
-        updatePoints: updatePoints,
-        animateBorders: animateBorders,
-        parseGradientStopColors: parseGradientStopColors
-    }
 })
 
 function setSizesAndMargins(mobile) {
@@ -147,6 +50,7 @@ window.onload = (event) => {
         setup.makeLinks(value, borders)
         setSizesAndMargins(value);
     })
+    animation.start(borders)
     // setListeners()
 }
 
