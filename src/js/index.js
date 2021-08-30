@@ -91,11 +91,11 @@ const borderControl = (function() {
     //     }
     // }
 
-    const setPathData = function() {
-        borders.forEach((points, index) => {
-            borderedElements[index].setAttribute('d', makePath(points))
-        })
-    }
+    // const setPathData = function() {
+    //     borders.forEach((points, index) => {
+    //         borderedElements[index].setAttribute('d', makePath(points))
+    //     })
+    // }
 
     const animateBorders = function() {
         updatePoints()
@@ -118,39 +118,14 @@ const borderControl = (function() {
 function setSizesAndMargins(mobile) {
     let windowWidth = window.innerWidth
     let fontSize = Math.floor(windowWidth * .048)
-    let headerImageSize = Math.floor(windowWidth * .25)
-
     let header = document.getElementById('header')
-    let headerSvg = document.getElementById('header-svg')
-    header.style.fontSize = (fontSize + 10).toString() + "px"
-    // headerSvg.setAttribute('width', headerImageSize.toString())
-    // headerSvg.setAttribute('height', headerImageSize.toString())
+    header.style.fontSize = (fontSize + 10).toString() + 'px'
 
     let linkContainers = document.querySelectorAll('.link-container')
     let links = document.querySelectorAll('.link-text')
     for (let i = 0; i < linkContainers.length; i++) {
         linkContainers[i].style.margin = mobile ? "65px auto" : "25px auto"
         links[i].style.fontSize = fontSize.toString() + "px"
-    }
-}
-
-function setColors() {
-    console.log('here')
-    let borders = document.getElementsByClassName('border')
-    let borderGlows = document.getElementsByClassName('border-glow')
-    let links = document.getElementsByClassName('link')
-    for (let i = 0; i < borders.length; i++) {
-        let hue = Math.floor(Math.random() * 360)
-        borders[i].setAttribute('stroke', 'hsl(' + hue.toString() + ',100%,50%)')
-        borderGlows[i].setAttribute('stroke', 'hsl(' + hue.toString() + ',50%,65%)')
-        if (i > 0) {
-            links[i-1].style.backgroundColor = 'hsl(' + hue.toString() + ',50%,75%)'
-        }
-    }
-    let eyeGradientStops = document.getElementsByClassName('gradient-stop')
-    for (let i = 0; i < eyeGradientStops.length; i++) {
-        let hue = Math.floor(Math.random() * 360)
-        eyeGradientStops[i].setAttribute('stop-color', 'hsl(' + hue.toString() + ',50%,75%)')
     }
 }
 
@@ -164,20 +139,15 @@ function setColors() {
 
 
 window.onload = (event) => {
-    let borders = []
-    for (let i = 0; i < links.length + 2; i++) {
-        borders.push(new Border(8, .93, .005))
-    }
-    console.log(borders)
+    const borders = []
     setup.makeFooter()
     setup.makeSvgDefs(borders)
-    setup.makeHeader()
-   // // setColors()
-   //  // setListeners()
+    setup.makeHeaderImage(borders)
     detectMobile.then((value) => {
-        setup.makeLinks(value)
+        setup.makeLinks(value, borders)
         setSizesAndMargins(value);
     })
+    // setListeners()
 }
 
 window.onresize = (event) => {

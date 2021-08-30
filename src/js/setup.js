@@ -8,66 +8,31 @@ function setAttributes(el, attrs) {
   }
 }
 
-function makeColor (s, l) {
-	let hue = Math.floor(Math.random() * 360)
-	return 'hsl(' + hue.toString() + ',' + s.toString() + '%,' + l.toString() + '%)'
+function makeColor (h, s, l) {
+	return 'hsl(' + h.toString() + ',' + s.toString() + '%,' + l.toString() + '%)'
 }
 
-export function makeSvgDefs(b) {
+export function makeSvgDefs(borders) {
 	let numLinks = linkData.links.length;
-	let paths = []
-	let clipPaths = []
 	let container = document.getElementById('svg-defs-container')
 	let svg = document.createElementNS('http://www.w3.org/2000/svg','svg')
 	let defs = document.createElementNS('http://www.w3.org/2000/svg','defs')
-	setAttributes(svg, {
+	setAttributes(defs, {
 		id: 'svg-defs'
 	})
 
-	let headerImgPath = document.createElementNS('http://www.w3.org/2000/svg','path')
-	headerImgPath.setAttribute( 'id', 'header-img-path')
-	paths.push(headerImgPath)
+	container.appendChild(svg)
+	svg.appendChild(defs)
 
-	let headerImgClipPath = document.createElementNS('http://www.w3.org/2000/svg','clipPath')
-	headerImgClipPath.setAttribute('id', 'header-img-clip-path')
-	clipPaths.push(headerImgClipPath)
-
-	let headerPath = document.createElementNS('http://www.w3.org/2000/svg','path')
-	headerPath.setAttribute('id', 'header-path')
-	paths.push(headerPath)
-
-	let headerClipPath = document.createElementNS('http://www.w3.org/2000/svg','clipPath')
-	headerClipPath.setAttribute('id', 'header-clip-path')
-	clipPaths.push(headerClipPath)
+	borders.push(new Border('header-img', 8, .93, .005))
+	borders.push(new Border('header', 8, .93, .005))
 
 	for (let i = 0; i < numLinks; i++) {
-		let path = document.createElementNS('http://www.w3.org/2000/svg','path')
-		path.setAttribute('id', 'link-' + [i] + '-path')
-		paths.push(path)
-
-		let clipPath = document.createElementNS('http://www.w3.org/2000/svg','clipPath')
-		clipPath.setAttribute('id', 'link-' + [i] + '-clip-path')
-		clipPaths.push(clipPath)
+		borders.push(new Border('link-' + i, 8, .93, .005))
 	}
-	for (let i = 0; i < paths.length; i++) {
-		paths[i].setAttribute( 'class', 'svg-path border')
-		paths[i].setAttribute( 'd', b[i].createPoints().makePath().path)
 
-		// Not sure why but the following 2 attributes have to be set here,
-		// not with the 'use' element that references them?????????
-		paths[i].setAttribute('vector-effect', 'non-scaling-stroke')
-		paths[i].setAttribute( 'transform', 'translate(.5,.5) scale(.5)')
-
-		clipPaths[i].setAttribute('class', 'svg-clip-path')
-		clipPaths[i].setAttribute('clipPathUnits', 'objectBoundingBox')
-
-		let id = paths[i].getAttribute('id')
-		let use = document.createElementNS('http://www.w3.org/2000/svg','use')
-		use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + id)
-		clipPaths[i].appendChild(use)
-
-		defs.appendChild(paths[i])
-		defs.appendChild(clipPaths[i])
+	for (let i = 0; i < borders.length; i++) {
+		borders[i].createPoints().makePath().setPathElementData()
 	}
 
 	let filter = document.createElementNS('http://www.w3.org/2000/svg','filter')
@@ -92,7 +57,7 @@ export function makeSvgDefs(b) {
 		setAttributes(stop, {
 			class: 'gradient-stop',
 			id: 'eye-gradient-stop-' + i.toString(),
-			'stop-color': makeColor(50, 75),
+			'stop-color': makeColor(Math.floor(Math.random() * 360), 50, 75),
 			offset: (i * 50).toString() + '%'
 		})
 		gradient.appendChild(stop)
@@ -103,7 +68,7 @@ export function makeSvgDefs(b) {
 	container.appendChild(svg)
 }
 
-export function makeHeader() {
+export function makeHeaderImage(borders) {
 	let container = document.getElementById('header-image-container')
 	let svg = document.createElementNS('http://www.w3.org/2000/svg','svg')
 	setAttributes(svg, {
@@ -149,7 +114,7 @@ export function makeHeader() {
 	setAttributes(glowBorder, {
 		class: 'border-glow',
 		id: 'header-img-border-glow',
-		stroke: makeColor(50, 65),
+		stroke: makeColor(borders[0].hue, 50, 65),
 		filter: 'url(#glow)',
 		'stroke-width': '10'
 	})
@@ -159,7 +124,7 @@ export function makeHeader() {
 	setAttributes(border, {
 		class: 'border',
 		id: 'header-img-border',
-		stroke: makeColor(100, 50),
+		stroke: makeColor(borders[0].hue, 100, 50),
 		'stroke-width': '2'
 	})
 
@@ -172,7 +137,7 @@ export function makeHeader() {
 	container.appendChild(svg)
 }
 
-export function makeLinks(mobile) {
+export function makeLinks(mobile, borders) {
 	let container = document.getElementById('links-container')
 	for (let i = 0; i < links.length; i++) {
 		let linkContainer = document.createElement('div')
@@ -183,7 +148,7 @@ export function makeLinks(mobile) {
 		let linkClipContainer = document.createElement('div')
 		setAttributes(linkClipContainer, {
 			class: 'link-clip-div',
-			style: 'clip-path: url(#link-' + i + '-clip-path);'
+			style: 'clip-path: url(#link-' + i + '-clip-path); background-color: ' + makeColor(borders[i + 2].hue, 50, 75)
 		})
 		let linkTextBox = document.createElement('div')
 		setAttributes(linkTextBox, {
@@ -213,7 +178,7 @@ export function makeLinks(mobile) {
 		setAttributes(glowBorder, {
 			class: 'border-glow',
 			id: 'link-' + i + '-border-glow',
-			stroke: makeColor(50, 65),
+			stroke: makeColor(borders[i + 2].hue, 50, 65),
 			filter: 'url(#glow)',
 			'stroke-width': '10'
 		})
@@ -223,7 +188,7 @@ export function makeLinks(mobile) {
 		setAttributes(border, {
 			class: 'border',
 			id: 'link-' + i + '-border',
-			stroke: makeColor(100, 50),
+			stroke: makeColor(borders[i + 2].hue,100, 50),
 			'stroke-width': '2'
 		})
 
