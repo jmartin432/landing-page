@@ -91,20 +91,21 @@ export function makeHeaderImage(borders) {
 	})
 
 	let glowBorder = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-	glowBorder.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
 	helpers.setAttributes(glowBorder, {
 		class: 'border-glow',
 		id: 'header-img-border-glow',
+		href: '#header-img-path',
 		stroke: helpers.makeColor(borders[0].hue, 50, 65),
 		filter: 'url(#glow)',
 		'stroke-width': '10'
 	})
 
 	let border = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-	border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
+	//border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
 	helpers.setAttributes(border, {
 		class: 'border',
 		id: 'header-img-border',
+		href: '#header-img-path',
 		stroke: helpers.makeColor(borders[0].hue, 100, 50),
 		'stroke-width': '2'
 	})
@@ -121,7 +122,7 @@ export function makeHeaderImage(borders) {
 		class: 'header-image',
 		id: 'header-image',
 	    style: 'clip-path: url(#header-img-clip-path);',
-	    href: 'images/landingPageFaceEyeClip.png',
+	    href: 'images/landingPageFaceEyeClip-500.png',
 		width: 1,
 		height: 1
 	})
@@ -193,20 +194,21 @@ export function makeLinks(mobile, borders) {
 		})
 		let group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
 		let glowBorder = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-		glowBorder.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#link-' + i + '-path')
+		//glowBorder.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#link-' + i + '-path')
 		helpers.setAttributes(glowBorder, {
 			class: 'border-glow',
 			id: 'link-' + i + '-border-glow',
+			href: '#link-' + i + '-path',
 			stroke: helpers.makeColor(borders[i + 2].hue, 50, 65),
 			filter: 'url(#glow)',
 			'stroke-width': '10'
 		})
 
 		let border = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-		border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#link-' + i + '-path')
 		helpers.setAttributes(border, {
 			class: 'border',
 			id: 'link-' + i + '-border',
+			href: '#link-' + i + '-path',
 			stroke: helpers.makeColor(borders[i + 2].hue,100, 50),
 			'stroke-width': '2'
 		})
