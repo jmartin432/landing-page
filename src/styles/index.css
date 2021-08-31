@@ -146,6 +146,11 @@ body {
     text-align: center;
 }
 
+#unicorn-unflipped {
+    display: inline-block;
+    transform: scale(1, 1);
+}
+
 #unicorn-flip {
     display: inline-block;
     transform: scale(-1, 1);

@@ -228,12 +228,16 @@ export function makeLinks(mobile, borders) {
 export function makeFooter() {
 	let container = document.getElementById('footer-container')
 	let footer = document.createElement("footer");
-	let part1 = document.createElement('span')
-	part1.textContent = '🦄 I made this myself! '
-	let part2 = document.createElement('span')
-	part2.textContent = '🦄'
-	part2.setAttribute('id', 'unicorn-flip')
-	footer.appendChild(part1);
-	footer.appendChild(part2);
+	let emoji1 = document.createElement('span')
+	emoji1.textContent = '🦄'
+	emoji1.setAttribute('id', 'unicorn-unflipped')
+	let text = document.createElement('span')
+	text.textContent = ' I made this myself! '
+	let emoji2 = document.createElement('span')
+	emoji2.textContent = '🦄'
+	emoji2.setAttribute('id', 'unicorn-flip')
+	footer.appendChild(emoji1);
+	footer.appendChild(text);
+	footer.appendChild(emoji2);
 	container.appendChild(footer)
 }
