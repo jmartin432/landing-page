@@ -124,6 +124,7 @@ body {
 
 .link-text-box {
     vertical-align: middle;
+    padding-top: 10px;
     margin: auto;
     flex: 9;
 }

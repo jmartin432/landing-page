@@ -91,6 +91,11 @@ export function makeHeaderImage(borders) {
 	})
 
 	let image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+	image.onload = function () {
+		group.appendChild(circle1)
+		group.appendChild(circle2)
+		group.appendChild(image)
+	};
 	helpers.setAttributes(image, {
 		class: 'header-image',
 		id: 'header-image',
@@ -119,9 +124,6 @@ export function makeHeaderImage(borders) {
 		'stroke-width': '2'
 	})
 
-	group.appendChild(circle1)
-	group.appendChild(circle2)
-	group.appendChild(image)
 	group.appendChild(glowBorder)
 	group.appendChild(border)
 	svg.appendChild(group)
@@ -145,13 +147,39 @@ export function makeLinks(mobile, borders) {
 		helpers.setAttributes(linkTextBox, {
 			class: 'link-text-box'
 		})
-		let link = document.createElement('a')
-		helpers.setAttributes(link, {
-			class: 'link-text',
-			href: (mobile) ? links[i].mobileLink : links[i].link,
-			target: '_blank'
-		})
-		link.textContent = links[i].text
+
+		let link
+		if (links[i].id === 'postcard') {
+			link = document.createElement('span')
+			helpers.setAttributes(link, {
+				class: 'link-text',
+			})
+			link.textContent = links[i].text
+			link.addEventListener('mouseenter', function(){
+				link.textContent = ''
+				link.innerHTML = '<span>PO Box 14011</span><br><span>Portland OR, 97293</span>'
+			})
+			link.addEventListener('touchenter', function(){
+				link.textContent = ''
+				link.innerHTML = '<span>PO Box 14011</span><br><span>Portland OR, 97293</span>'
+			})
+			link.addEventListener('mouseleave', function(){
+				link.innerHTML = ''
+				link.textContent = 'Send Me a Postcard'
+			})
+			link.addEventListener('touchleave', function(){
+				link.innerHTML = ''
+				link.textContent = 'Send Me a Postcard'
+			})
+		} else {
+			link = document.createElement('a')
+			helpers.setAttributes(link, {
+				class: 'link-text',
+				href: (mobile) ? links[i].mobileLink : links[i].link,
+				target: '_blank'
+			})
+			link.textContent = links[i].text
+		}
 
 		let linkSvgContainer = document.createElement('div')
 		helpers.setAttributes(linkSvgContainer, {

@@ -7,13 +7,6 @@ export const links = [
         mobileLink: 'instagram://user?username=jugglingtallguy'
     },
     {
-        id: 'venmo',
-        text: 'Send Me Money on Venmo',
-        altText: 'Send Me Money on Venmo',
-        link: 'https://www.venmo.com/u/justinlmartin',
-        mobileLink: 'https://www.venmo.com/justinlmartin?txn=pay'
-    },
-    {
         id: 'email',
         text: 'Send Me an E-mail',
         altText: 'Send Me an E-mail',
@@ -26,6 +19,13 @@ export const links = [
         altText: 'PO Box 14011, Portland OR, 97293',
         link: '',
         mobileLink: ''
+    },
+    {
+        id: 'venmo',
+        text: 'Send Me Money on Venmo',
+        altText: 'Send Me Money on Venmo',
+        link: 'https://www.venmo.com/u/justinlmartin',
+        mobileLink: 'https://www.venmo.com/justinlmartin?txn=pay'
     },
     {
         id: 'coding-portfolio',
