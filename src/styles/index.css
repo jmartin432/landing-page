@@ -79,7 +79,6 @@ body {
 }
 
 .link-clip-div {
-    /*background-color: powderblue;*/
     /*this is so the bottom of the clip path lines up with the bottom of the border svg*/
     padding-bottom: 10px;
 }
@@ -109,18 +108,6 @@ body {
     /*cursor: pointer;*/
     /*filter: blur(5px);*/
 }
-
-/*.link-icon-box {*/
-/*    vertical-align: middle;*/
-/*    padding: 5px;*/
-/*    flex: 1;*/
-/*    margin: 10px;*/
-/*}*/
-
-/*.link-icon {*/
-/*    display: inline;*/
-/*    margin: auto;*/
-/*}*/
 
 .link-text-box {
     vertical-align: middle;
