@@ -90,21 +90,6 @@ export function makeHeaderImage(borders) {
 		fill: 'url(#eye-gradient)'
 	})
 
-	let image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-	image.onload = function () {
-		group.appendChild(circle1)
-		group.appendChild(circle2)
-		group.appendChild(image)
-	};
-	helpers.setAttributes(image, {
-		class: 'header-image',
-		id: 'header-image',
-	    style: 'clip-path: url(#header-img-clip-path);',
-	    href: 'images/landingPageFaceEyeClip.png',
-		width: 1,
-		height: 1
-	})
-
 	let glowBorder = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 	glowBorder.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
 	helpers.setAttributes(glowBorder, {
@@ -124,8 +109,23 @@ export function makeHeaderImage(borders) {
 		'stroke-width': '2'
 	})
 
-	group.appendChild(glowBorder)
-	group.appendChild(border)
+	let image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+	image.onload = function () {
+		group.appendChild(circle1)
+		group.appendChild(circle2)
+		group.appendChild(image)
+		group.appendChild(glowBorder)
+		group.appendChild(border)
+	};
+	helpers.setAttributes(image, {
+		class: 'header-image',
+		id: 'header-image',
+	    style: 'clip-path: url(#header-img-clip-path);',
+	    href: 'images/landingPageFaceEyeClip.png',
+		width: 1,
+		height: 1
+	})
+
 	svg.appendChild(group)
 	container.appendChild(svg)
 }
