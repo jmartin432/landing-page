@@ -189,19 +189,19 @@ export async function makeLinks(mobile) {
 				class: 'link-text',
 			})
 			link.textContent = links[i].text
-			link.addEventListener('mouseenter', function(){
+			linkContainer.addEventListener('mouseenter', function(){
 				link.textContent = ''
 				link.innerHTML = '<span>PO Box 14011</span><br><span>Portland OR, 97293</span>'
 			})
-			link.addEventListener('touchenter', function(){
+			linkContainer.addEventListener('touchenter', function(){
 				link.textContent = ''
 				link.innerHTML = '<span>PO Box 14011</span><br><span>Portland OR, 97293</span>'
 			})
-			link.addEventListener('mouseleave', function(){
+			linkContainer.addEventListener('mouseleave', function(){
 				link.innerHTML = ''
 				link.textContent = 'Send Me a Postcard'
 			})
-			link.addEventListener('touchleave', function(){
+			linkContainer.addEventListener('touchleave', function(){
 				link.innerHTML = ''
 				link.textContent = 'Send Me a Postcard'
 			})
