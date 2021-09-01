@@ -3,8 +3,38 @@ import * as helpers from './helpers'
 import {Border} from './Border'
 import {links} from "./linkData";
 
-export function makeSvgDefs(borders) {
-	let numLinks = linkData.links.length;
+function makePath(id) {
+	let path = document.createElementNS('http://www.w3.org/2000/svg','path')
+	helpers.setAttributes(path, {
+        id: id,
+        class: 'svg-path border',
+        // Not sure why but the following 2 attributes have to be set here,
+        // not with the 'use' element that references them?????????
+        'vector-effect': 'non-scaling-stroke',
+        transform: 'translate(.5,.5) scale(.5)'
+    })
+	return path
+}
+
+function makeClipPath(id) {
+	let clipPath = document.createElementNS('http://www.w3.org/2000/svg','clipPath')
+    helpers.setAttributes(clipPath, {
+        id: id,
+        class: 'svg-clip-path',
+        clipPathUnits: 'objectBoundingBox'
+    })
+	return clipPath
+}
+
+function makeUse(href) {
+	let use = document.createElementNS('http://www.w3.org/2000/svg','use')
+    helpers.setAttributes(use, {
+        href: href
+    })
+	return use
+}
+
+export function makeSvgDefs() {
 	let container = document.getElementById('svg-defs-container')
 	let svg = document.createElementNS('http://www.w3.org/2000/svg','svg')
 	let defs = document.createElementNS('http://www.w3.org/2000/svg','defs')
@@ -15,15 +45,21 @@ export function makeSvgDefs(borders) {
 	container.appendChild(svg)
 	svg.appendChild(defs)
 
-	borders.push(new Border('header-img', 8, .93, .005))
-	borders.push(new Border('header', 8, .93, .005))
+    defs.appendChild(makePath('header-image-path'))
+	let headerImageClipPath = makeClipPath('header-image-clip-path')
+	headerImageClipPath.appendChild(makeUse('#header-image-path'))
+    defs.appendChild(headerImageClipPath)
 
-	for (let i = 0; i < numLinks; i++) {
-		borders.push(new Border('link-' + i, 8, .93, .005))
-	}
+	defs.appendChild(makePath('header-path'))
+	let headerClipPath = makeClipPath('header-clip-path')
+	headerClipPath.appendChild(makeUse('#header-path'))
+    defs.appendChild(headerClipPath)
 
-	for (let i = 0; i < borders.length; i++) {
-		borders[i].createPoints().makePath().setPathElementData()
+	for (let i = 0; i < links.length; i++) {
+		defs.appendChild(makePath('link-' + i + '-path'))
+		let clipPath = makeClipPath('link-' + i + '-clip-path')
+		clipPath.appendChild(makeUse('#link-' + i + '-path'))
+		defs.appendChild(clipPath)
 	}
 
 	let filter = document.createElementNS('http://www.w3.org/2000/svg','filter')
@@ -59,19 +95,17 @@ export function makeSvgDefs(borders) {
 	container.appendChild(svg)
 }
 
-export function makeHeaderImage(borders) {
+export function defineHeaderElements() {
 	let container = document.getElementById('header-image-container')
 	let svg = document.createElementNS('http://www.w3.org/2000/svg','svg')
 	helpers.setAttributes(svg, {
 		id: 'header-svg',
 		viewBox:'0 0 1 1'
 	})
-
 	let group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
 	helpers.setAttributes(group, {
 		id: 'header-svg-group'
 	})
-
 	let circle1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 	helpers.setAttributes(circle1, {
 		id: 'eye-circle-1',
@@ -80,7 +114,6 @@ export function makeHeaderImage(borders) {
 		r: '.13',
 		fill: 'url(#eye-gradient)'
 	})
-
 	let circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 	helpers.setAttributes(circle2, {
 		id: 'eye-circle-2',
@@ -89,13 +122,19 @@ export function makeHeaderImage(borders) {
 		r: '.13',
 		fill: 'url(#eye-gradient)'
 	})
-
+	let image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+	helpers.setAttributes(image, {
+		class: 'header-image',
+		id: 'header-image',
+	    style: 'clip-path: url(#header-image-clip-path);',
+		width: 1,
+		height: 1
+	})
 	let glowBorder = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 	helpers.setAttributes(glowBorder, {
 		class: 'border-glow',
-		id: 'header-img-border-glow',
-		href: '#header-img-path',
-		stroke: helpers.makeColor(borders[0].hue, 50, 65),
+		id: 'header-image-border-glow',
+		href: '#header-image-path',
 		filter: 'url(#glow)',
 		'stroke-width': '10'
 	})
@@ -103,45 +142,40 @@ export function makeHeaderImage(borders) {
 	let border = document.createElementNS('http://www.w3.org/2000/svg', 'use');
 	helpers.setAttributes(border, {
 		class: 'border',
-		id: 'header-img-border',
-		href: '#header-img-path',
-		stroke: helpers.makeColor(borders[0].hue, 100, 50),
+		id: 'header-image-border',
+		href: '#header-image-path',
 		'stroke-width': '2'
 	})
 
-	let image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-	image.onload = function () {
-		group.appendChild(circle1)
-		group.appendChild(circle2)
-		group.appendChild(image)
-		group.appendChild(glowBorder)
-		group.appendChild(border)
-	};
-	helpers.setAttributes(image, {
-		class: 'header-image',
-		id: 'header-image',
-	    style: 'clip-path: url(#header-img-clip-path);',
-	    href: 'images/landingPageFaceEyeClip-500.png',
-		width: 1,
-		height: 1
-	})
-
+	group.appendChild(circle1)
+	group.appendChild(circle2)
+	group.appendChild(image)
+	group.appendChild(glowBorder)
+	group.appendChild(border)
 	svg.appendChild(group)
 	container.appendChild(svg)
 }
 
-export function makeLinks(mobile, borders) {
+export function setHeaderImage() {
+	let image = document.getElementById('header-image')
+	helpers.setAttributes(image, {
+		href: 'images/landingPageFaceEyeClip-500.png',
+	})
+}
+
+export async function makeLinks(mobile) {
 	let container = document.getElementById('links-container')
 	for (let i = 0; i < links.length; i++) {
 		let linkContainer = document.createElement('div')
 		helpers.setAttributes(linkContainer, {
 			class: 'link-container',
-			id: links[i].id
+			id: 'link-' + i + '-main-container',
+
 		})
 		let linkClipContainer = document.createElement('div')
 		helpers.setAttributes(linkClipContainer, {
+			id: 'link-' + i + '-container',
 			class: 'link-clip-div',
-			style: 'clip-path: url(#link-' + i + '-clip-path); background-color: ' + helpers.makeColor(borders[i + 2].hue, 50, 75)
 		})
 		let linkTextBox = document.createElement('div')
 		helpers.setAttributes(linkTextBox, {
@@ -193,12 +227,10 @@ export function makeLinks(mobile, borders) {
 		})
 		let group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
 		let glowBorder = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-		//glowBorder.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#link-' + i + '-path')
 		helpers.setAttributes(glowBorder, {
 			class: 'border-glow',
 			id: 'link-' + i + '-border-glow',
 			href: '#link-' + i + '-path',
-			stroke: helpers.makeColor(borders[i + 2].hue, 50, 65),
 			filter: 'url(#glow)',
 			'stroke-width': '10'
 		})
@@ -208,7 +240,6 @@ export function makeLinks(mobile, borders) {
 			class: 'border',
 			id: 'link-' + i + '-border',
 			href: '#link-' + i + '-path',
-			stroke: helpers.makeColor(borders[i + 2].hue,100, 50),
 			'stroke-width': '2'
 		})
 
@@ -223,6 +254,23 @@ export function makeLinks(mobile, borders) {
 		linkSvg.appendChild(group)
 		group.append(glowBorder)
 		group.appendChild(border)
+	}
+}
+
+export function makeBorders (borders) {
+	let numLinks = linkData.links.length;
+	borders.push(new Border('header-image', 8, .93, .005))
+	//borders.push(new Border('header', 8, .93, .005))
+
+	for (let i = 0; i < numLinks; i++) {
+		borders.push(new Border('link-' + i, 8, .93, .005))
+	}
+
+	for (let i = 0; i < borders.length; i++) {
+		borders[i].createPoints().makePath().setPathElementData()
+		borders[i].setBorderGlowColor()
+		borders[i].setBorderColor()
+		borders[i].setBackGroundColorClipPath()
 	}
 }
 

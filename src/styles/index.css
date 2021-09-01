@@ -14,7 +14,7 @@ body {
 
 #background-container {
     position: absolute;
-    z-index: 0;
+    z-index: -1;
     width: 100%;
     height: 100%;
 }
@@ -31,7 +31,7 @@ body {
 #main-container {
     position: relative;
     display: block;
-    z-index: 1;
+    /*z-index: 1;*/
 }
 
 #svg-defs-container svg {
@@ -43,25 +43,26 @@ body {
 }
 
 #header-image-container {
-    margin: 20px 0px 20px 0px;
+    width: 25%;
+    margin: 20px auto;
     overflow: visible;
 }
 
 #header-image-container svg {
     display: block;
+    width: 100%;
     margin: auto;
     position: relative;
     overflow: visible;
     top: 0;
     left: 0;
-    width: 25%;
 }
 
 #header-image-container image {
     display: block;
     max-width: 100%;
     height: auto;
-    margin: 0px auto 0px auto;
+    margin: 0 auto;
 }
 
 #header-image-container use {
@@ -92,6 +93,7 @@ body {
     width: 75%;
     vertical-align: middle;
     overflow: visible;
+    /*padding-bottom: 10px;*/
 }
 
 .link-clip-div {
@@ -118,11 +120,6 @@ body {
 .link-svg-container use {
     vector-effect: non-scaling-stroke;
     fill-opacity: 0;
-}
-
-.link-container:hover {
-    /*cursor: pointer;*/
-    /*filter: blur(5px);*/
 }
 
 .link-text-box {

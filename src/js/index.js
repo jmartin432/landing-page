@@ -32,26 +32,18 @@ function setSizesAndMargins(mobile) {
     }
 }
 
-// function setListeners() {
-//     let buttons = document.getElementsByClassName('link-container')
-//     for (let i = 0; i < buttons.length; i++) {
-//         let button = buttons[i];
-//         button.addEventListener('click', handleClick)
-//     }
-// }
-
-
-window.onload = (event) => {
+window.onload = async (event) => {
     const borders = []
-    setup.makeFooter()
-    setup.makeSvgDefs(borders)
-    setup.makeHeaderImage(borders)
-    detectMobile.then((value) => {
-        setup.makeLinks(value, borders)
+    await setup.makeSvgDefs()
+    await setup.defineHeaderElements()
+    await setup.setHeaderImage()
+    detectMobile.then(async (value) => {
+        await setup.makeLinks(value)
+        setup.makeFooter()
         setSizesAndMargins(value);
+        setup.makeBorders(borders)
     })
     animation.start(borders)
-    // setListeners()
 }
 
 window.onresize = (event) => {

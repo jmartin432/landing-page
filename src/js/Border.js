@@ -11,35 +11,23 @@ export function Border(id, size, radius, noiseStep) {
     this.points = [];
     this.path = '';
     this.hue = Math.floor(Math.random() * 360)
+    this.pathElement = document.getElementById(this.id + '-path')
+    this.borderGlowElement = document.getElementById(this.id + '-border-glow')
+    this.borderElement = document.getElementById(this.id + '-border')
+    this.containerDiv = document.getElementById(this.id + '-container')
 
-    this.pathElement = document.createElementNS('http://www.w3.org/2000/svg','path')
-
-    let defs = document.getElementById('svg-defs')
-    helpers.setAttributes(this.pathElement, {
-        id: this.id + '-path',
-        class: 'svg-path border',
-        // Not sure why but the following 2 attributes have to be set here,
-        // not with the 'use' element that references them?????????
-        'vector-effect': 'non-scaling-stroke',
-        transform: 'translate(.5,.5) scale(.5)'
-
+    this.containerDiv.addEventListener('mouseenter', () => {
+        this.noiseStep = .015
     })
-
-    defs.appendChild(this.pathElement)
-    let clipPath = document.createElementNS('http://www.w3.org/2000/svg','clipPath')
-    helpers.setAttributes(clipPath, {
-        id: this.id + '-clip-path',
-        class: 'svg-clip-path',
-        clipPathUnits: 'objectBoundingBox'
+    this.containerDiv.addEventListener('touchenter', () => {
+        this.noiseStep = .015
     })
-
-    let use = document.createElementNS('http://www.w3.org/2000/svg','use')
-    helpers.setAttributes(use, {
-        href: '#' + id + '-path'
+    this.containerDiv.addEventListener('mouseleave', () => {
+        this.noiseStep = .005
     })
-    clipPath.appendChild(use)
-    defs.appendChild(clipPath)
-
+    this.containerDiv.addEventListener('touchleave', () => {
+        this.noiseStep = .005
+    })
 }
 
 Border.prototype.createPoints = function() {
@@ -88,4 +76,17 @@ Border.prototype.makePath = function() {
 Border.prototype.setPathElementData = function() {
     this.pathElement.setAttribute('d', this.path)
     return this
+}
+
+Border.prototype.setBorderGlowColor = function() {
+    this.borderGlowElement.setAttribute('stroke', helpers.makeColor(this.hue, 50, 65))
+}
+
+Border.prototype.setBorderColor = function() {
+    this.borderElement.setAttribute('stroke', helpers.makeColor(this.hue,100, 50),)
+}
+
+Border.prototype.setBackGroundColorClipPath = function() {
+    if (this.id === 'header-image') return
+    this.containerDiv.setAttribute('style', 'clip-path: url(#' + this.id + '-clip-path);background-color: ' + helpers.makeColor(this.hue, 50, 75))
 }
