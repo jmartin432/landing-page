@@ -1,4 +1,6 @@
 import {AnchorPoint, ControlPoint, ReflectedControlPoint} from "./Points"
+import * as helpers from './helpers'
+
 
 export function Border(id, size, radius, noiseStep) {
     this.id = id
@@ -13,23 +15,28 @@ export function Border(id, size, radius, noiseStep) {
     this.pathElement = document.createElementNS('http://www.w3.org/2000/svg','path')
 
     let defs = document.getElementById('svg-defs')
-    this.pathElement.setAttribute( 'id', this.id + '-path')
-    this.pathElement.setAttribute( 'class', 'svg-path border')
-    this.pathElement.setAttribute( 'class', 'svg-path border')
+    helpers.setAttributes(this.pathElement, {
+        id: this.id + '-path',
+        class: 'svg-path border',
+        // Not sure why but the following 2 attributes have to be set here,
+        // not with the 'use' element that references them?????????
+        'vector-effect': 'non-scaling-stroke',
+        transform: 'translate(.5,.5) scale(.5)'
 
-    // Not sure why but the following 2 attributes have to be set here,
-    // not with the 'use' element that references them?????????
-    this.pathElement.setAttribute('vector-effect', 'non-scaling-stroke')
-    this.pathElement.setAttribute( 'transform', 'translate(.5,.5) scale(.5)')
+    })
+
     defs.appendChild(this.pathElement)
-
     let clipPath = document.createElementNS('http://www.w3.org/2000/svg','clipPath')
-    clipPath.setAttribute('id', this.id + '-clip-path')
-    clipPath.setAttribute('class', 'svg-clip-path')
-    clipPath.setAttribute('clipPathUnits', 'objectBoundingBox')
+    helpers.setAttributes(clipPath, {
+        id: this.id + '-clip-path',
+        class: 'svg-clip-path',
+        clipPathUnits: 'objectBoundingBox'
+    })
 
     let use = document.createElementNS('http://www.w3.org/2000/svg','use')
-    use.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + id + '-path')
+    helpers.setAttributes(use, {
+        href: '#' + id + '-path'
+    })
     clipPath.appendChild(use)
     defs.appendChild(clipPath)
 

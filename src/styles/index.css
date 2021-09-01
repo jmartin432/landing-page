@@ -12,9 +12,26 @@ body {
     display: block;
 }
 
+#background-container {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#background-container svg {
+    width: 100%;
+    height: 100%;
+}
+
+#background-container image {
+    width: 10%;
+}
+
 #main-container {
     position: relative;
     display: block;
+    z-index: 1;
 }
 
 #svg-defs-container svg {

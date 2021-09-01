@@ -101,7 +101,6 @@ export function makeHeaderImage(borders) {
 	})
 
 	let border = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-	//border.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#header-img-path')
 	helpers.setAttributes(border, {
 		class: 'border',
 		id: 'header-img-border',
