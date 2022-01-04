@@ -16,7 +16,7 @@ export const links = [
     {
         id: 'postcard',
         text: 'Send Me a Postcard',
-        altText: 'PO Box 14011, Portland OR, 97293',
+        altText: 'PO Box 11967, Portland OR, 97211',
         link: '',
         mobileLink: ''
     },
