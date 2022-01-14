@@ -3,8 +3,8 @@ export const links = [
         id: 'blog',
         text: 'Check Out My Blog',
         altText: 'Check Out My Blog',
-        link: 'blog.justinlmartin.com',
-        mobileLink: 'blog.justinlmartin.com'
+        link: 'https://blog.justinlmartin.com',
+        mobileLink: 'https://blog.justinlmartin.com'
     },
     {
         id: 'whatsapp',
