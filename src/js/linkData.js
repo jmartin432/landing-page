@@ -1,11 +1,11 @@
 export const links = [
-    {
-        id: 'blog',
-        text: 'Check Out My Blog',
-        altText: 'Check Out My Blog',
-        link: 'https://blog.justinlmartin.com',
-        mobileLink: 'https://blog.justinlmartin.com'
-    },
+    // {
+    //     id: 'blog',
+    //     text: 'Check Out My Blog',
+    //     altText: 'Check Out My Blog',
+    //     link: 'https://blog.justinlmartin.com',
+    //     mobileLink: 'https://blog.justinlmartin.com'
+    // },
     {
         id: 'whatsapp',
         text: 'Contact Me on WhatsApp',
