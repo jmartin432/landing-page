@@ -7,18 +7,18 @@ export const links = [
     //     mobileLink: 'https://blog.justinlmartin.com'
     // },
     {
-        id: 'whatsapp',
-        text: 'Contact Me on WhatsApp',
-        altText: 'Contact Me on WhatsApp',
-        link: 'https://wa.me/14135193798',
-        mobileLink: 'https://wa.me/14135193798'
-    },
-    {
         id: 'instagram',
         text: 'See My Instagram',
         altText: 'See My Instagram',
         link: 'https://www.instagram.com/jugglingtallguy/',
         mobileLink: 'instagram://user?username=jugglingtallguy'
+    },
+    {
+        id: 'whatsapp',
+        text: 'Contact Me on WhatsApp',
+        altText: 'Contact Me on WhatsApp',
+        link: 'https://wa.me/14135193798',
+        mobileLink: 'https://wa.me/14135193798'
     },
     {
         id: 'email',
