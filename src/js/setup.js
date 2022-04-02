@@ -120,7 +120,7 @@ export function defineHeaderElements() {
 		id: 'eye-circle-1',
 		cx: '.31',
 		cy: '.5',
-		r: '.13',
+		r: '.115',
 		fill: 'url(#eye-gradient)'
 	})
 	let circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -128,7 +128,7 @@ export function defineHeaderElements() {
 		id: 'eye-circle-2',
 		cx: '.62',
 		cy: '.425',
-		r: '.13',
+		r: '.115',
 		fill: 'url(#eye-gradient)'
 	})
 	let image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
