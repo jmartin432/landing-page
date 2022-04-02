@@ -106,6 +106,15 @@ export function defineHeaderElements() {
 	helpers.setAttributes(group, {
 		id: 'header-svg-group'
 	})
+	let backgroundCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+	helpers.setAttributes(backgroundCircle, {
+		id: 'background-circle',
+		cx: '.5',
+		cy: '.5',
+		r: '.5',
+		fill: 'url(#eye-gradient)',
+		style: 'clip-path: url(#header-image-clip-path);'
+	})
 	let circle1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 	helpers.setAttributes(circle1, {
 		id: 'eye-circle-1',
@@ -147,6 +156,7 @@ export function defineHeaderElements() {
 		'stroke-width': '2'
 	})
 
+	group.appendChild(backgroundCircle)
 	group.appendChild(circle1)
 	group.appendChild(circle2)
 	group.appendChild(image)
@@ -159,7 +169,7 @@ export function defineHeaderElements() {
 export function setHeaderImage() {
 	let image = document.getElementById('header-image')
 	helpers.setAttributes(image, {
-		href: 'images/landingPageFaceEyeClip-500.png',
+		href: 'images/landingPageFaceFullClip-500.png',
 	})
 }
 
