@@ -1,22 +1,14 @@
 #!/bin/bash
 set -eu
 
-read -p "Environment? " STAGE
-echo "Uploading Static Files to ${STAGE}..."
+echo "Starting Webpack"
+npm run webpack
+echo "Webpack Done"
 
-if [ "${STAGE}" == "dev" ]
-  then
-     BUCKET_NAME="static-sites-pipeline-deployment-dev-li8jne9g"
-     SITE_PATH="/landing-page"
-     echo "${BUCKET_NAME}${SITE_PATH}"
-     aws s3 sync --acl 'public-read' --delete ./src/ "s3://${BUCKET_NAME}${SITE_PATH}"
-elif [ "${STAGE}" == "prod" ]
-  then
-     BUCKET_NAME="static-sites-pipeline-deployment-prod-rh5n89d3"
-     SITE_PATH="/landing-page"
-     echo "${BUCKET_NAME}${SITE_PATH}"
-     aws s3 sync --acl 'public-read' --delete ./src/ "s3://${BUCKET_NAME}${SITE_PATH}"
-fi
+BUCKET_NAME="justinlmartin.com"
+echo "Uploading Static Files to ${BUCKET_NAME}"
+
+aws s3 sync --profile justin --acl 'public-read' --delete ./src/ "s3://${BUCKET_NAME}"
 
 
 

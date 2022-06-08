@@ -290,8 +290,10 @@ export function makeFooter() {
 	let emoji1 = document.createElement('span')
 	emoji1.textContent = '🦄'
 	emoji1.setAttribute('id', 'unicorn-unflipped')
+	let year = new Date().getFullYear().toString()
+
 	let text = document.createElement('span')
-	text.textContent = ' I made this myself! '
+	text.textContent = ' '.concat('© ', year, ' - Justin L Martin Enterprises ')
 	let emoji2 = document.createElement('span')
 	emoji2.textContent = '🦄'
 	emoji2.setAttribute('id', 'unicorn-flip')

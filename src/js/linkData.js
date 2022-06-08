@@ -7,16 +7,30 @@ export const links = [
     //     mobileLink: 'https://blog.justinlmartin.com'
     // },
     {
-        id: 'instagram',
-        text: 'See My Instagram',
-        altText: 'See My Instagram',
-        link: 'https://www.instagram.com/jugglingtallguy/',
-        mobileLink: 'instagram://user?username=jugglingtallguy'
+        id: 'webdesign',
+        text: 'Web Design',
+        altText: 'Web Design',
+        link: 'https://webdesign.justinlmartin.com',
+        mobileLink: 'https://webdesign.justinlmartin.com'
     },
     {
+        id: 'upwork',
+        text: 'Upwork',
+        altText: 'Upwork',
+        link: 'https://www.upwork.com/freelancers/~019922f393a93ca027',
+        mobileLink: 'https://www.upwork.com/freelancers/~019922f393a93ca027'
+    },
+    // {
+    //     id: 'instagram',
+    //     text: 'See My Instagram',
+    //     altText: 'See My Instagram',
+    //     link: 'https://www.instagram.com/jugglingtallguy/',
+    //     mobileLink: 'instagram://user?username=jugglingtallguy'
+    // },
+    {
         id: 'whatsapp',
-        text: 'Contact Me on WhatsApp',
-        altText: 'Contact Me on WhatsApp',
+        text: 'WhatsApp',
+        altText: 'WhatsApp',
         link: 'https://wa.me/14135193798',
         mobileLink: 'https://wa.me/14135193798'
     },
@@ -27,13 +41,13 @@ export const links = [
         link: 'mailto:info@justinlmartin.com',
         mobileLink: 'mailto:info@justinlmartin.com'
     },
-    {
-        id: 'venmo',
-        text: 'Send Me Money on Venmo',
-        altText: 'Send Me Money on Venmo',
-        link: 'https://www.venmo.com/u/justinlmartin',
-        mobileLink: 'https://www.venmo.com/justinlmartin?txn=pay'
-    },
+    // {
+    //     id: 'venmo',
+    //     text: 'Send Me Money on Venmo',
+    //     altText: 'Send Me Money on Venmo',
+    //     link: 'https://www.venmo.com/u/justinlmartin',
+    //     mobileLink: 'https://www.venmo.com/justinlmartin?txn=pay'
+    // },
     {
         id: 'github',
         text: 'My Github',
